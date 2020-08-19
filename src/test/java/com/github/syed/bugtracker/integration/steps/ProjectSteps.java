@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.integration.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.syed.bugtracker.ColorUtils;
 import com.github.syed.bugtracker.project.Project;
@@ -17,7 +18,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -61,6 +61,22 @@ public class ProjectSteps {
         matchProjects(expectedProject, actualProject);
     }
 
+    //TODO make it more efficient in O(n)
+    @Then("^the response contains projects$")
+    public void theResponseContains(List<String> projectIds) throws JsonProcessingException {
+        String responseBody = RestSteps.response.body();
+        List<Project> projects = new ObjectMapper().readValue(responseBody, new TypeReference<>(){});
+
+        for(String id : projectIds){
+            Project expectedProject = (Project) DataStorage.get(id);
+            Project actualProject = projects.stream()
+                    .filter(project -> expectedProject.getName().equals(project.getName()))
+                    .findFirst()
+                    .get();
+            matchProjects(expectedProject, actualProject);
+        }
+    }
+
     private void matchProjects(Project expectedProject, Project actualProject) {
         assertThat(actualProject.getName(), is(expectedProject.getName()));
         assertThat(actualProject.getColor(), is(expectedProject.getColor()));
@@ -83,20 +99,4 @@ public class ProjectSteps {
         }
     }
 
-    //TODO make it more efficient in O(n)
-    @Then("^the response contains projects$")
-    public void theResponseContains(List<String> projectIds) throws JsonProcessingException {
-        String responseBody = RestSteps.response.body();
-        List<Project> projects = new ObjectMapper().readValue(responseBody, List.class);
-
-        for(String id : projectIds){
-            Project expectedProject = (Project) DataStorage.get(id);
-            Project actualProject = projects.stream()
-                    .filter(project -> expectedProject.getName().equals(project.getName()))
-                    .findFirst()
-                    .get();
-            matchProjects(expectedProject, actualProject);
-        }
-
-    }
 }

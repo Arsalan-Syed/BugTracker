@@ -29,4 +29,10 @@ public class ProjectControllerTest {
         projectController.createProject(project);
         verify(projectService, times(1)).create(any(Project.class));
     }
+
+    @Test
+    public void shouldCallServiceForGettingAllProjects(){
+        projectController.getProjects();
+        verify(projectService, times(1)).getProjects();
+    }
 }

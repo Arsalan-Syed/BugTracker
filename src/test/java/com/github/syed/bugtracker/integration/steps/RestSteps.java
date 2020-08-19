@@ -36,7 +36,7 @@ public class RestSteps {
     @When("^the client calls POST to \"([^\"]*)\" with \"([^\"]*)\"$")
     public void theClientCallsPOSTToWith(String path, String objectId) throws Throwable {
         Project project = (Project) DataStorage.get(objectId);
-        String body = String.format("{\"id\":null,\"name\":\"%s\",\"color\":\"%s\"}", project.getName(), "#0000ff"); //TODO use jackson mapper
+        String body = new ObjectMapper().writeValueAsString(project);
         theClientCallsPOSTToWithBody(path, body);
     }
 

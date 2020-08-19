@@ -1,14 +1,11 @@
 package com.github.syed.bugtracker.project;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("/project")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -17,9 +14,14 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping
+    @PostMapping("/project")
     public Project createProject(@Valid @RequestBody Project project){
         return projectService.create(project);
+    }
+
+    @GetMapping(value = "/projects")
+    public List<Project> getProjects(){
+        return projectService.getProjects();
     }
 
 }

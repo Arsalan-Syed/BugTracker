@@ -4,6 +4,7 @@ import com.github.syed.bugtracker.project.exception.DuplicateProjectNameExceptio
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,10 @@ public class ProjectService {
     public Project create(Project project) {
         validateProjectNameUnique(project.getName());
         return repository.save(project);
+    }
+
+    public List<Project> getProjects() {
+        return repository.findAll(); //TODO later we should only return projects that the user belongs to
     }
 
     private void validateProjectNameUnique(String name) {

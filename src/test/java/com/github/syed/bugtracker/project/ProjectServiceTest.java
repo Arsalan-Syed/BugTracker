@@ -7,8 +7,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,5 +46,15 @@ public class ProjectServiceTest {
                 .build();
 
         service.create(project);
+    }
+
+    @Test
+    public void shouldGetAllProjects(){
+        when(repository.findAll()).thenReturn(List.of(
+           Project.builder().build()
+        ));
+
+        List<Project> projects = service.getProjects();
+        assertThat(projects, hasSize(1));
     }
 }
