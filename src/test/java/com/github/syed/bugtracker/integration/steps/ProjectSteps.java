@@ -73,7 +73,7 @@ public class ProjectSteps {
             field.setAccessible(true);
 
             if(field.getType() == Color.class){
-                Color color = convertHexStringToColor(map, key);
+                Color color = ColorUtils.convertToColor(map.get(key));
                 field.set(project, color);
             } else{
                 field.set(project, map.get(key));
@@ -81,11 +81,6 @@ public class ProjectSteps {
 
             field.setAccessible(false);
         }
-    }
-
-    private Color convertHexStringToColor(Map<String, String> map, String key) {
-        String colorStr = map.get(key);
-        return ColorUtils.convertToColor(colorStr);
     }
 
     //TODO make it more efficient in O(n)
