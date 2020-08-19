@@ -1,5 +1,7 @@
 package com.github.syed.bugtracker.integration.steps;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.syed.bugtracker.project.Project;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -31,6 +33,13 @@ public class RestSteps {
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    @When("^the client calls POST to \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void theClientCallsPOSTToWith(String path, String objectId) throws Throwable {
+        Project project = (Project) DataStorage.get(objectId);
+        String body = String.format("{\"id\":null,\"name\":\"%s\",\"color\":\"%s\"}", project.getName(), "#0000ff"); //TODO use jackson mapper
+        theClientCallsPOSTToWithBody(path, body);
+    }
+
     @Then("^the client should receive a status code of (\\d+)$")
     public void theClientShouldReceiveAStatusCodeOf(int expectedStatusCode) {
         assertThat(response.statusCode(), is(expectedStatusCode));
@@ -54,6 +63,7 @@ public class RestSteps {
 
     private HttpRequest.Builder createHttpRequestBuilder(String path) {
         return HttpRequest.newBuilder()
+                .header("content-type","application/json")
                 .uri(URI.create("http://localhost:8080" + path))
                 .timeout(Duration.ofMinutes(1));
     }
