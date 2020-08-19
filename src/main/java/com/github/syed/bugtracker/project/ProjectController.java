@@ -14,7 +14,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping("/project")
+    @PostMapping(value = "/project")
     public Project createProject(@Valid @RequestBody Project project){
         return projectService.create(project);
     }
@@ -22,6 +22,11 @@ public class ProjectController {
     @GetMapping(value = "/projects")
     public List<Project> getProjects(){
         return projectService.getProjects();
+    }
+
+    @DeleteMapping(value = "/project/{name}")
+    public void deleteProject(@PathVariable String name) {
+        projectService.deleteProject(name);
     }
 
 }

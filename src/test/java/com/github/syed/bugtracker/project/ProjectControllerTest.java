@@ -24,7 +24,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void shouldCallService(){
+    public void shouldCallServiceForCreatingAProject(){
         Project project = new Project();
         projectController.createProject(project);
         verify(projectService, times(1)).create(any(Project.class));
@@ -34,5 +34,12 @@ public class ProjectControllerTest {
     public void shouldCallServiceForGettingAllProjects(){
         projectController.getProjects();
         verify(projectService, times(1)).getProjects();
+    }
+
+    @Test
+    public void shouldCallServiceForDeletingAProject(){
+        String projectName = "name";
+        projectController.deleteProject(projectName);
+        verify(projectService, times(1)).deleteProject(projectName);
     }
 }

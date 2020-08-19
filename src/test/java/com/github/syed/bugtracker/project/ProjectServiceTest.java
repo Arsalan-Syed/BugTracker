@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.project;
 
 import com.github.syed.bugtracker.project.exception.DuplicateProjectNameException;
+import com.github.syed.bugtracker.project.exception.ProjectNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,5 +57,19 @@ public class ProjectServiceTest {
 
         List<Project> projects = service.getProjects();
         assertThat(projects, hasSize(1));
+    }
+
+    @Test
+    public void shouldDeleteAProject(){
+        String projectName = "projectName";
+        Project project = Project.builder().name(projectName).build();
+        when(repository.findOne(any())).thenReturn(Optional.ofNullable(project));
+        service.deleteProject(projectName);
+        verify(repository, times(1)).delete(any());
+    }
+
+    @Test(expected = ProjectNotFoundException.class)
+    public void shouldThrowExceptionIfCantFindProject(){
+        service.deleteProject("projectName");
     }
 }

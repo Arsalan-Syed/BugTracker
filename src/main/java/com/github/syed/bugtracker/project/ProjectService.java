@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.project;
 
 import com.github.syed.bugtracker.project.exception.DuplicateProjectNameException;
+import com.github.syed.bugtracker.project.exception.ProjectNotFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,16 @@ public class ProjectService {
         }
     }
 
+    public void deleteProject(String projectName) {
+        Optional<Project> project = repository.findOne(Example.of(
+                Project.builder()
+                        .name(projectName)
+                        .build()
+        ));
+
+        if(project.isEmpty()) {
+            throw new ProjectNotFoundException("Could not find project with name "+projectName);
+        }
+        repository.delete(project.get());
+    }
 }

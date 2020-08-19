@@ -99,4 +99,15 @@ public class ProjectSteps {
         }
     }
 
+    @And("^the Project \"([^\"]*)\" is no longer in the database$")
+    public void theProjectIsNoLongerInTheDatabase(String projectId) {
+        Project project = (Project) DataStorage.get(projectId);
+
+        repository.findOne(Example.of(
+                Project.builder()
+                        .name(project.getName())
+                        .build()
+        ));
+    }
+
 }

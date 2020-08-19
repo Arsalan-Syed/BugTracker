@@ -35,9 +35,16 @@ public class RestSteps {
 
     @When("^the client calls POST to \"([^\"]*)\" with \"([^\"]*)\"$")
     public void theClientCallsPOSTToWith(String path, String objectId) throws Throwable {
-        Project project = (Project) DataStorage.get(objectId);
-        String body = new ObjectMapper().writeValueAsString(project);
+        Object object = DataStorage.get(objectId);
+        String body = new ObjectMapper().writeValueAsString(object);
         theClientCallsPOSTToWithBody(path, body);
+    }
+
+    @When("^the client calls DELETE to \"([^\"]*)\"$")
+    public void theClientCallsDELETEToWithString(String path) throws Throwable {
+        HttpClient client = createHttpClient();
+        HttpRequest request = createDeleteRequest(path);
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     @Then("^the client should receive a status code of (\\d+)$")
@@ -58,6 +65,14 @@ public class RestSteps {
 
     private HttpRequest createGetRequest(String path) {
         return createHttpRequestBuilder(path).GET()
+                .build();
+    }
+
+    private HttpRequest createDeleteRequest(String path) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080" + path))
+                .timeout(Duration.ofMinutes(1))
+                .DELETE()
                 .build();
     }
 
