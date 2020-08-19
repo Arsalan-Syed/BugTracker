@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker.integration.steps;
 
+import com.github.syed.bugtracker.ColorUtils;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
 import cucumber.api.DataTable;
@@ -77,11 +78,7 @@ public class ProjectSteps {
 
     private Color convertHexStringToColor(Map<String, String> map, String key) {
         String colorStr = map.get(key);
-        return new Color(
-                Integer.valueOf(colorStr.substring(1,3), 16),
-                Integer.valueOf(colorStr.substring(3,5), 16),
-                Integer.valueOf(colorStr.substring(5,7), 16)
-        );
+        return ColorUtils.convertToColor(colorStr);
     }
 
 }
