@@ -1,0 +1,33 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  2
+       author:  Arsalan Syed
+       changes:
+         - createSequence:
+             cycle: false
+             incrementBy:  1
+             sequenceName:  issue_id_seq
+             startValue:  1
+         -  createTable:
+              tableName: issue
+              columns:
+                - column:
+                    name:  id
+                    type:  int
+                    autoIncrement:  true
+                    defaultValueComputed: issue_id_seq.NEXTVAL
+                    constraints:
+                      primaryKey:  true
+                      nullable:  false
+                - column:
+                    name:  project_id
+                    type:  int
+                    constraints:
+                      nullable:  false
+                      references: project(id)
+                      foreignKeyName: FK_issue_project
+                - column:
+                    name:  name
+                    type:  nvarchar(100)
+                    constraints:
+                      nullable:  false

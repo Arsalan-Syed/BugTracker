@@ -33,7 +33,7 @@ public class ProjectSteps {
 
         for(Map<String, String> map : listOfMaps){
             Project project = new Project();
-            setProjectFields(map, project);
+            DataStorage.setFields(map, project);
             DataStorage.put(projectId, project);
         }
     }
@@ -80,23 +80,6 @@ public class ProjectSteps {
     private void matchProjects(Project expectedProject, Project actualProject) {
         assertThat(actualProject.getName(), is(expectedProject.getName()));
         assertThat(actualProject.getColor(), is(expectedProject.getColor()));
-    }
-
-    private void setProjectFields(Map<String, String> map, Project project) throws NoSuchFieldException, IllegalAccessException {
-        for(String key : map.keySet()){
-            Class<?> c = project.getClass();
-            Field field = c.getDeclaredField(key);
-            field.setAccessible(true);
-
-            if(field.getType() == Color.class){
-                Color color = ColorUtils.convertToColor(map.get(key));
-                field.set(project, color);
-            } else{
-                field.set(project, map.get(key));
-            }
-
-            field.setAccessible(false);
-        }
     }
 
     @And("^the Project \"([^\"]*)\" is no longer in the database$")

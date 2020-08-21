@@ -1,7 +1,10 @@
 package com.github.syed.bugtracker.integration.steps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.syed.bugtracker.issue.CreateIssueRequest;
+import com.github.syed.bugtracker.issue.Issue;
 import com.github.syed.bugtracker.project.Project;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -37,6 +40,18 @@ public class RestSteps {
     public void theClientCallsPOSTToWith(String path, String objectId) throws Throwable {
         Object object = DataStorage.get(objectId);
         String body = new ObjectMapper().writeValueAsString(object);
+        theClientCallsPOSTToWithBody(path, body);
+    }
+
+    @When("^the client calls POST to \"([^\"]*)\" with \"([^\"]*)\" and parameter \"([^\"]*)\"$")
+    public void theClientCallsPOSTToWithAndParameter(String path, String objectId, String projectName) throws Throwable {
+        Issue issue = (Issue) DataStorage.get(objectId);
+        CreateIssueRequest request = CreateIssueRequest.builder()
+                .issue(issue)
+                .projectName(projectName)
+                .build();
+
+        String body = new ObjectMapper().writeValueAsString(request);
         theClientCallsPOSTToWithBody(path, body);
     }
 

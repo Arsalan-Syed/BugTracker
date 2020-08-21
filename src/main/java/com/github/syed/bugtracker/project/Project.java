@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.syed.bugtracker.ColorConverter;
 import com.github.syed.bugtracker.ColorDeserializer;
 import com.github.syed.bugtracker.ColorSerializer;
+import com.github.syed.bugtracker.issue.Issue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.awt.*;
+import java.util.Set;
 
 @Getter
 @Builder
@@ -33,4 +35,7 @@ public class Project {
     @JsonSerialize(using = ColorSerializer.class)
     @JsonDeserialize(using = ColorDeserializer.class)
     private Color color;
+
+    @OneToMany(mappedBy = "project")
+    private Set<Issue> issues;
 }
