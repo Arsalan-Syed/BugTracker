@@ -22,7 +22,7 @@ public class CucumberHooks {
 
     private void clearAllDatabaseRows() {
         List<String> tableNames = findAllTableNames();
-        tableNames.forEach(tableName -> jdbcTemplate.execute("TRUNCATE TABLE "+tableName));
+        tableNames.forEach(tableName -> jdbcTemplate.execute("DELETE FROM "+tableName));
     }
 
     private List<String> findAllTableNames() {
