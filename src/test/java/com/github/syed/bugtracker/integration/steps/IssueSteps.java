@@ -1,10 +1,11 @@
 package com.github.syed.bugtracker.integration.steps;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.syed.bugtracker.issue.Issue;
 import com.github.syed.bugtracker.issue.IssueRepository;
-import com.github.syed.bugtracker.project.Project;
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
 public class IssueSteps {
@@ -49,13 +51,36 @@ public class IssueSteps {
     }
 
     @And("^the Issue \"([^\"]*)\" matches exactly$")
-    public void theIssueMatchesExactly(String issueId) throws Throwable {
+    public void theIssueMatchesExactly(String issueId) {
         Issue expectedIssue = (Issue) DataStorage.get(issueId);
         Issue actualIssue = (Issue) DataStorage.get("DB-"+issueId);
         matchIssues(expectedIssue, actualIssue);
     }
 
-    private void matchIssues(Issue expectedIssue, Issue actualIssue) {
-        assertThat(actualIssue.getName(), is(expectedIssue.getName()));
+    @And("^the response contains issues$")
+    public void theResponseContainsIssues(List<String> issueIds) throws JsonProcessingException {
+        String responseBody = RestSteps.response.body();
+        List<Issue> issues = new ObjectMapper().readValue(responseBody, new TypeReference<>(){});
+
+        for(String id : issueIds){
+            Issue expectedIssue = (Issue) DataStorage.get(id);
+            Issue actualIssue = issues.stream()
+                    .filter(project -> expectedIssue.getName().equals(project.getName()))
+                    .findFirst()
+                    .get();
+            matchIssues(expectedIssue, actualIssue);
+        }
     }
+
+    @And("^the response contains no issues$")
+    public void theResponseContainsNoIssues() throws JsonProcessingException {
+        String responseBody = RestSteps.response.body();
+        List<Issue> issues = new ObjectMapper().readValue(responseBody, new TypeReference<>(){});
+        assertThat(issues, empty());
+    }
+
+    private void matchIssues(Issue expectedIssue, Issue actualIssue) {
+        assertThat(expectedIssue.getName(), is(actualIssue.getName()));
+    }
+
 }

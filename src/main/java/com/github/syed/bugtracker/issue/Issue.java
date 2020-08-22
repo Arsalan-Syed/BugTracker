@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker.issue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.syed.bugtracker.project.Project;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Issue {
 
     @ManyToOne
     @JoinColumn(name="project_id", nullable = false)
+    @JsonIgnore
     Project project;
 
 }

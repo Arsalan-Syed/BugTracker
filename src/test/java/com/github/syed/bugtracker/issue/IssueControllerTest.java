@@ -32,4 +32,11 @@ public class IssueControllerTest {
         verify(issueService, times(1)).createIssue(request.getIssue(), request.getProjectName());
     }
 
+    @Test
+    public void shouldGetAllIssues(){
+        String projectName = "Project Name";
+        issueController.getIssues(projectName);
+        verify(issueService, times(1)).getIssues(projectName);
+    }
+
 }
