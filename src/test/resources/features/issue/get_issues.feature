@@ -11,8 +11,8 @@ Feature: The client can get all issues
       | name         |
       | Issue Name 2 |
     And the client calls POST to "/project" with "defaultProject"
-    And the client calls POST to "/issue" with "issue1" and parameter "ProjectName"
-    And the client calls POST to "/issue" with "issue2" and parameter "ProjectName"
+    And the client calls POST to "/project/ProjectName/issue" with "issue1"
+    And the client calls POST to "/project/ProjectName/issue" with "issue2"
 
     When the client calls GET to "/project/ProjectName/issues"
     Then the client should receive a status code of 200

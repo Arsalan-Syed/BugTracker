@@ -18,6 +18,7 @@ public class CucumberHooks {
     @After
     public void afterScenario(){
         clearAllDatabaseRows();
+        DataStorage.clear();
     }
 
     private void clearAllDatabaseRows() {

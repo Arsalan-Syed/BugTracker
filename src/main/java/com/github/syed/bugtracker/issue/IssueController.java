@@ -15,10 +15,9 @@ public class IssueController {
         this.issueService = issueService;
     }
 
-    //why not post an issue object to project/{projectName}/issue
-    @PostMapping(value = "/issue")
-    public void createIssue(@Valid @RequestBody CreateIssueRequest request) {
-        issueService.createIssue(request.getIssue(), request.getProjectName());
+    @PostMapping(value = "/project/{projectName}/issue")
+    public void createIssue(@Valid @RequestBody Issue issue, @PathVariable String projectName) {
+        issueService.createIssue(issue, projectName);
     }
 
     @GetMapping("/project/{projectName}/issues")

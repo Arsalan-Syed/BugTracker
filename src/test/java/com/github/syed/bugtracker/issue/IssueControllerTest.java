@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -24,12 +26,8 @@ public class IssueControllerTest {
 
     @Test
     public void shouldCreateIssue(){
-        CreateIssueRequest request = CreateIssueRequest.builder()
-                .issue(new Issue())
-                .projectName("Project name")
-                .build();
-        issueController.createIssue(request);
-        verify(issueService, times(1)).createIssue(request.getIssue(), request.getProjectName());
+        issueController.createIssue(new Issue(), "Project name");
+        verify(issueService, times(1)).createIssue(any(), anyString());
     }
 
     @Test

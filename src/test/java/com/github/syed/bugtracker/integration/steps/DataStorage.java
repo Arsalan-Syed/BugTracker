@@ -18,6 +18,10 @@ public class DataStorage {
         return map.getOrDefault(id, null);
     }
 
+    public static void clear(){
+        map.clear();
+    }
+
     public static <T> void setFields(Map<String, String> map, T object) throws NoSuchFieldException, IllegalAccessException {
         for(String key : map.keySet()){
             Class<?> c = object.getClass();
