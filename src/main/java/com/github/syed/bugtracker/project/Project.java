@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker.project;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.syed.bugtracker.ColorConverter;
@@ -26,6 +27,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_id_generator")
     @SequenceGenerator(name="project_id_generator", sequenceName = "project_id_seq", allocationSize = 1)
+    @JsonIgnore
     private Long id;
 
     @NotEmpty
