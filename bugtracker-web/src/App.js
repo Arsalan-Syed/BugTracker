@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import ProjectPage from "./project_page/ProjectPage";
+import ProjectPage from "./project/ProjectPage";
 
 class App extends Component {
 

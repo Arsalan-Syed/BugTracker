@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './ProjectPage.css'
-import ProjectCard from "../project_card/ProjectCard";
+import ProjectCard from "../project/ProjectCard";
 
 class ProjectPage extends Component{
 
