@@ -18,6 +18,7 @@ public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "issue_id_generator")
     @SequenceGenerator(name="issue_id_generator", sequenceName = "issue_id_seq", allocationSize = 1)
+    @JsonIgnore
     private Long id;
 
     @NotEmpty
