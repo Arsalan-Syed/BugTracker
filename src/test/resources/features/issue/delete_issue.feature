@@ -5,8 +5,8 @@ Feature: user should be able to delete an issue
       | name         | color   |
       | Project Name | #0000ff |
     And Issue "defaultIssue"
-      | name        |
-      | Issue Name  |
+      | name        | priority |
+      | Issue Name  | LOW      |
     And the client calls POST to "/project" with "defaultProject"
     And the client calls POST to "/project/Project%20Name/issue" with "defaultIssue"
     When the client calls DELETE to "/project/Project%20Name/issue/Issue%20Name"

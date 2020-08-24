@@ -5,11 +5,11 @@ Feature: The client can get all issues
       | name         | color   |
       | ProjectName  | #0000ff |
     And Issue "issue1"
-      | name         |
-      | Issue Name 1 |
+      | name        | priority |
+      | Issue Name  | LOW      |
     And Issue "issue2"
-      | name         |
-      | Issue Name 2 |
+      | name         | priority |
+      | Issue Name 2 | MEDIUM   |
     And the client calls POST to "/project" with "defaultProject"
     And the client calls POST to "/project/ProjectName/issue" with "issue1"
     And the client calls POST to "/project/ProjectName/issue" with "issue2"

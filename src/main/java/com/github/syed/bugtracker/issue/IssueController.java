@@ -16,8 +16,8 @@ public class IssueController {
     }
 
     @PostMapping(value = "/project/{projectName}/issue")
-    public void createIssue(@Valid @RequestBody Issue issue, @PathVariable String projectName) {
-        issueService.createIssue(issue, projectName);
+    public Issue createIssue(@Valid @RequestBody Issue issue, @PathVariable String projectName) {
+        return issueService.createIssue(issue, projectName);
     }
 
     @GetMapping("/project/{projectName}/issues")

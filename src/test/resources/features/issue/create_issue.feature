@@ -5,9 +5,10 @@ Feature: The client can create an issue
       | name         | color   |
       | Project Name | #0000ff |
     And Issue "defaultIssue"
-      | name        |
-      | Issue Name  |
+      | name        | priority |
+      | Issue Name  | LOW      |
     And the client calls POST to "/project" with "defaultProject"
+    And the client should receive a status code of 200
 
     When the client calls POST to "/project/Project%20Name/issue" with "defaultIssue"
     Then the client should receive a status code of 200
@@ -17,7 +18,7 @@ Feature: The client can create an issue
 
   Scenario: Reject creating an issue if the project name doesn't exist
     Given Issue "defaultIssue"
-      | name        |
-      | Issue Name  |
+      | name        | priority |
+      | Issue Name  | LOW      |
     When the client calls POST to "/project/Project%20Name/issue" with "defaultIssue"
     Then the client should receive a status code of 404

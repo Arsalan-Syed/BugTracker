@@ -11,9 +11,11 @@ import cucumber.api.java.en.Given;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -51,14 +53,14 @@ public class IssueSteps {
     }
 
     @And("^the Issue \"([^\"]*)\" matches exactly$")
-    public void theIssueMatchesExactly(String issueId) {
+    public void theIssueMatchesExactly(String issueId) throws IllegalAccessException {
         Issue expectedIssue = (Issue) DataStorage.get(issueId);
         Issue actualIssue = (Issue) DataStorage.get("DB-"+issueId);
         matchIssues(expectedIssue, actualIssue);
     }
 
     @And("^the response contains issues$")
-    public void theResponseContainsIssues(List<String> issueIds) throws JsonProcessingException {
+    public void theResponseContainsIssues(List<String> issueIds) throws JsonProcessingException, IllegalAccessException {
         String responseBody = RestSteps.response.body();
         List<Issue> issues = new ObjectMapper().readValue(responseBody, new TypeReference<>(){});
 
@@ -79,8 +81,23 @@ public class IssueSteps {
         assertThat(issues, empty());
     }
 
-    private void matchIssues(Issue expectedIssue, Issue actualIssue) {
-        assertThat(expectedIssue.getName(), is(actualIssue.getName()));
+    //TODO generic matching algorithm that recursively checks objects
+    private void matchIssues(Issue expectedIssue, Issue actualIssue) throws IllegalAccessException {
+        Field[] issueFields = expectedIssue.getClass().getDeclaredFields();
+
+        Set<String> ignoredFields = Set.of("id", "project", "status");
+
+        for(Field field : issueFields){
+            if(ignoredFields.contains(field.getName())){
+                continue;
+            }
+
+            field.setAccessible(true);
+            Object expectedIssueValue = field.get(expectedIssue);
+            Object actualIssueValue = field.get(actualIssue);
+            assertThat(actualIssueValue, is(expectedIssueValue));
+            field.setAccessible(false);
+        }
     }
 
     @And("^the Issue \"([^\"]*)\" is no longer in the database$")

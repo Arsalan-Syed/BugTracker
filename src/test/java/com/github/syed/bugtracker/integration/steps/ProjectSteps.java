@@ -3,7 +3,6 @@ package com.github.syed.bugtracker.integration.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.syed.bugtracker.ColorUtils;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
 import cucumber.api.DataTable;
@@ -13,8 +12,6 @@ import cucumber.api.java.en.Then;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
-import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

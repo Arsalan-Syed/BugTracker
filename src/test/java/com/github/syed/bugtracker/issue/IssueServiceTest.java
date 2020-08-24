@@ -4,18 +4,20 @@ import com.github.syed.bugtracker.issue.exception.IssueNotFoundException;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
 import com.github.syed.bugtracker.project.exception.ProjectNotFoundException;
-import org.hibernate.criterion.Example;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.github.syed.bugtracker.issue.Status.TODO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +45,19 @@ public class IssueServiceTest {
         when(projectRepository.findOne(any())).thenReturn(Optional.of(Project.builder().name(projectName).build()));
         issueService.createIssue(issue, projectName);
         verify(issueRepository, times(1)).save(issue);
+    }
+
+    @Test
+    public void shouldSetStatusOfTodoWhenCreatingNewIssue(){
+        Issue issue = Issue.builder().build();
+        String projectName = "Project name";
+
+        when(projectRepository.findOne(any())).thenReturn(Optional.of(Project.builder().name(projectName).build()));
+
+        issueService.createIssue(issue, projectName);
+
+        Issue capturedIssue = captureIssue();
+        assertThat(capturedIssue.getStatus(), is(TODO));
     }
 
     @Test(expected = ProjectNotFoundException.class)
@@ -78,4 +93,11 @@ public class IssueServiceTest {
         when(issueRepository.findOne(any())).thenReturn(Optional.empty());
         issueService.deleteIssue(issueName);
     }
+
+    private Issue captureIssue() {
+        ArgumentCaptor<Issue> captor = ArgumentCaptor.forClass(Issue.class);
+        verify(issueRepository).save(captor.capture());
+        return captor.getValue();
+    }
+
 }

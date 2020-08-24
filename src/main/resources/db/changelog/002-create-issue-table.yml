@@ -31,3 +31,13 @@ databaseChangeLog:
                     type:  nvarchar(100)
                     constraints:
                       nullable:  false
+                - column:
+                    name:  status
+                    type:  nvarchar(20)
+                    constraints:
+                      nullable:  false
+                - column:
+                    name:  priority
+                    type:  nvarchar(15)
+                    constraints:
+                      nullable:  false

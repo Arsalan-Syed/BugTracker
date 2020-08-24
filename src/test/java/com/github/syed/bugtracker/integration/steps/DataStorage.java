@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.integration.steps;
 
 import com.github.syed.bugtracker.ColorUtils;
+import com.github.syed.bugtracker.issue.Priority;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -22,17 +23,21 @@ public class DataStorage {
         map.clear();
     }
 
-    public static <T> void setFields(Map<String, String> map, T object) throws NoSuchFieldException, IllegalAccessException {
-        for(String key : map.keySet()){
+    public static <T> void setFields(Map<String, String> objectFields, T object) throws NoSuchFieldException, IllegalAccessException {
+        for(String objectField : objectFields.keySet()){
+            String objectValue = objectFields.get(objectField);
             Class<?> c = object.getClass();
-            Field field = c.getDeclaredField(key);
+            Field field = c.getDeclaredField(objectField);
             field.setAccessible(true);
 
             if(field.getType() == Color.class){
-                Color color = ColorUtils.convertToColor(map.get(key));
+                Color color = ColorUtils.convertToColor(objectValue);
                 field.set(object, color);
+            } else if(field.getType() == Priority.class){
+                Priority priority = Priority.valueOf(objectValue);
+                field.set(object, priority);
             } else{
-                field.set(object, map.get(key));
+                field.set(object, objectValue);
             }
 
             field.setAccessible(false);

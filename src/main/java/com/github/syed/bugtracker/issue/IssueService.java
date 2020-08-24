@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.github.syed.bugtracker.issue.Status.TODO;
+
 @Service
 public class IssueService {
 
@@ -21,10 +23,11 @@ public class IssueService {
         this.projectRepository = projectRepository;
     }
 
-    public void createIssue(Issue issue, String projectName) {
+    public Issue createIssue(Issue issue, String projectName) {
         Project project = findProjectByName(projectName);
         issue.setProject(project);
-        repository.save(issue);
+        issue.setStatus(TODO);
+        return repository.save(issue);
     }
 
     public List<Issue> getIssues(String projectName) {

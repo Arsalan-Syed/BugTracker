@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -22,11 +23,16 @@ public class Issue {
     private Long id;
 
     @NotEmpty
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name="project_id", nullable = false)
     @JsonIgnore
-    Project project;
+    private Project project;
+
+    private Status status;
+
+    @NotNull
+    private Priority priority;
 
 }
