@@ -3,8 +3,8 @@ import './ProjectCard.css'
 
 
 const ProjectCard = props => (
-    <div className="ProjectCard" style={{"background-color": this.props.project.color}}>
-        <b className="ProjectCardTitle">{this.props.project.name}</b>
+    <div className="ProjectCard" style={{"background-color": props.project.color}}>
+        <b className="ProjectCardTitle">{props.project.name}</b>
     </div>
 );
 
