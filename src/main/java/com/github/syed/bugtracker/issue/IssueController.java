@@ -24,4 +24,10 @@ public class IssueController {
     public List<Issue> getIssues(@PathVariable String projectName) {
         return issueService.getIssues(projectName);
     }
+
+    //TODO why do we need the project name?
+    @DeleteMapping(value = "/project/{projectName}/issue/{issueName}")
+    public void deleteIssue(String projectName, String issueName) {
+        issueService.deleteIssue(issueName);
+    }
 }

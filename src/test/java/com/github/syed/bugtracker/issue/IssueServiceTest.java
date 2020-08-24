@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker.issue;
 
+import com.github.syed.bugtracker.issue.exception.IssueNotFoundException;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
 import com.github.syed.bugtracker.project.exception.ProjectNotFoundException;
@@ -61,5 +62,20 @@ public class IssueServiceTest {
         when(issueRepository.findByProject(any())).thenReturn(List.of(new Issue()));
         List<Issue> issues = issueService.getIssues(projectName);
         assertThat(issues, hasSize(1));
+    }
+
+    @Test
+    public void shouldDeleteIssue(){
+        String issueName = "Issue Name";
+        when(issueRepository.findOne(any())).thenReturn(Optional.of(new Issue()));
+        issueService.deleteIssue(issueName);
+        verify(issueRepository, times(1)).delete(any());
+    }
+
+    @Test(expected = IssueNotFoundException.class)
+    public void shouldThrowExceptionIfIssueDoesNotExist(){
+        String issueName = "Issue Name";
+        when(issueRepository.findOne(any())).thenReturn(Optional.empty());
+        issueService.deleteIssue(issueName);
     }
 }

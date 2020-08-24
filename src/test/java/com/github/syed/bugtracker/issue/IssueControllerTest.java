@@ -37,4 +37,11 @@ public class IssueControllerTest {
         verify(issueService, times(1)).getIssues(projectName);
     }
 
+    @Test
+    public void shouldDeleteIssue(){
+        String projectName = "Project Name";
+        String issueName = "Issue Name";
+        issueController.deleteIssue(projectName, issueName);
+        verify(issueService, times(1)).deleteIssue(issueName);
+    }
 }

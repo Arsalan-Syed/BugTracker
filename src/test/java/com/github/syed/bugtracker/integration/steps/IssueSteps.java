@@ -83,4 +83,12 @@ public class IssueSteps {
         assertThat(expectedIssue.getName(), is(actualIssue.getName()));
     }
 
+    @And("^the Issue \"([^\"]*)\" is no longer in the database$")
+    public void theIssueIsNoLongerInTheDatabase(String issueId) throws Throwable {
+        Issue issue = (Issue) DataStorage.get(issueId);
+
+        repository.findOne(Example.of(
+                Issue.builder().name(issue.getName()).build()
+        ));
+    }
 }
