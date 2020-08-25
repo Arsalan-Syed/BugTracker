@@ -42,19 +42,13 @@ class ProjectPage extends Component{
     render() {
         const projects = this.state.projects.map(p => <ProjectCard project={p}/>)
 
-        if(projects.length === 0) {
-            return <div className="ProjectPage">
-                <p>You have no projects, try creating one!</p>
-                <CreateProjectCard onClick={this.togglePopup}/>
-                {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={this.createProject}/>} handleClose={this.togglePopup}/>}
-            </div>
-        } else{
-            return <div className="ProjectPage">
-                {projects}
-                <CreateProjectCard/>
-                {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={this.createProject}/>} handleClose={this.togglePopup}/>}
-            </div>
-        }
+        return <div className="ProjectPage">
+            {projects.length === 0 && <p>You have no projects, try creating one!</p>}
+            {projects}
+            <CreateProjectCard onClick={this.togglePopup}/>
+            {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={this.createProject}/>} handleClose={this.togglePopup}/>}
+        </div>
+
     }
 
 }
