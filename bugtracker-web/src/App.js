@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import ProjectPage from "./project/ProjectPage";
+import LoginPage from "./login/LoginPage";
 
 class App extends Component {
 
@@ -10,7 +10,7 @@ class App extends Component {
                 <header className="App-header">
                     <p>BugTracker</p>
                 </header>
-                <ProjectPage/>
+                <LoginPage/>
             </div>
         );
     }

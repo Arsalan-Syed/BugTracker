@@ -38,7 +38,6 @@ class ProjectPage extends Component{
             //.then(data => this.setState({ postId: data.id }));
     }
 
-    //TODO both cases will need the create project popup, can simplify by putting confitional on the dynamic content
     render() {
         const projects = this.state.projects.map(p => <ProjectCard project={p}/>)
 
@@ -48,10 +47,8 @@ class ProjectPage extends Component{
             <CreateProjectCard onClick={this.togglePopup}/>
             {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={this.createProject}/>} handleClose={this.togglePopup}/>}
         </div>
-
     }
 
 }
-
 
 export default ProjectPage;
