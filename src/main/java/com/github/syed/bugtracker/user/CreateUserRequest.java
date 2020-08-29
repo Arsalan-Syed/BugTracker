@@ -4,21 +4,24 @@ import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 public class CreateUserRequest {
+    @NotNull
     @NotEmpty
     private String username;
 
+    @NotNull
     @NotEmpty
     private String password;
 
-    @NotEmpty
     private String matchPassword;
 
+    @NotNull
     @NotEmpty
     private String email;
 

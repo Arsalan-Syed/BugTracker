@@ -4,7 +4,6 @@ import com.github.syed.bugtracker.user.CreateUserRequest;
 import com.github.syed.bugtracker.user.User;
 import com.github.syed.bugtracker.user.UserRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -54,11 +53,7 @@ public class CreateUserRequestValidator implements Validator {
     }
 
     private void checkForExistingUsername(Errors errors, String username) {
-        Optional<User> userOptional = userRepository.findOne(
-                Example.of(
-                        User.builder().username(username).build()
-                )
-        );
+        Optional<User> userOptional = userRepository.findByUsername(username);
 
         if(userOptional.isPresent()){
             errors.reject(username, "username already exists");
@@ -97,11 +92,7 @@ public class CreateUserRequestValidator implements Validator {
     }
 
     private void validateEmail(Errors errors, String email) {
-        Optional<User> userOptional = userRepository.findOne(
-                Example.of(
-                        User.builder().email(email).build()
-                )
-        );
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
         if(userOptional.isPresent()){
             errors.reject(email, "email already exists");
