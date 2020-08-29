@@ -1,0 +1,45 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  3
+       author:  Arsalan Syed
+       changes:
+         - createSequence:
+             cycle: false
+             incrementBy:  1
+             sequenceName:  user_id_seq
+             startValue:  1
+         -  createTable:
+              tableName: user
+              columns:
+                - column:
+                    name:  id
+                    type:  int
+                    autoIncrement:  true
+                    defaultValueComputed: user_id_seq.NEXTVAL
+                    constraints:
+                      primaryKey:  true
+                      nullable:  false
+                - column:
+                    name: username
+                    type: nvarchar(20)
+                    constraints:
+                      nullable:  false
+                - column:
+                    name: email
+                    type: nvarchar(20)
+                    constraints:
+                      nullable:  false
+                - column:
+                    name: first_name
+                    type: nvarchar(20)
+                    constraints:
+                      nullable:  false
+                - column:
+                    name: middle_name
+                    type: nvarchar(20)
+                - column:
+                    name: last_name
+                    type: nvarchar(20)
+                    constraints:
+                      nullable:  false
+

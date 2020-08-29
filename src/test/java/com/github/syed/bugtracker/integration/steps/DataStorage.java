@@ -2,6 +2,7 @@ package com.github.syed.bugtracker.integration.steps;
 
 import com.github.syed.bugtracker.ColorUtils;
 import com.github.syed.bugtracker.issue.Priority;
+import com.github.syed.bugtracker.user.Name;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -36,7 +37,15 @@ public class DataStorage {
             } else if(field.getType() == Priority.class){
                 Priority priority = Priority.valueOf(objectValue);
                 field.set(object, priority);
-            } else{
+            } else if(field.getType() == Name.class){
+                String firstName = objectValue.split(" ")[0];
+                String middleName = objectValue.split(" ")[1];
+                String lastName = objectValue.split(" ")[2];
+                Name name = Name.builder().firstName(firstName)
+                        .middleName(middleName)
+                        .lastName(lastName).build();
+                field.set(object, name);
+            } else {
                 field.set(object, objectValue);
             }
 
