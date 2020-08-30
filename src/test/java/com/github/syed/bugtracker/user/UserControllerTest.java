@@ -28,10 +28,17 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldCallService(){
+    public void shouldCallServiceWhenRegisterUser(){
         CreateUserRequest request = CreateUserRequest.builder().build();
         controller.createUser(request);
         verify(service, times(1)).createUser(any());
+    }
+
+    @Test
+    public void shouldCallServiceWhenLogin() throws Exception {
+        LoginRequest loginRequest = LoginRequest.builder().build();
+        controller.login(loginRequest);
+        verify(service, times(1)).login(any());
     }
 
 }

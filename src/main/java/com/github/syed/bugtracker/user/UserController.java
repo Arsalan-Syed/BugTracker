@@ -25,6 +25,11 @@ public class UserController {
         service.createUser(request);
     }
 
+    @PostMapping(value = "/login")
+    public String login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+        return service.login(loginRequest);
+    }
+
     @InitBinder("createUserRequest")
     public void setupBinder(WebDataBinder binder) {
         binder.addValidators(validator);
