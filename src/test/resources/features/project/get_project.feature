@@ -1,4 +1,4 @@
-Feature: the client can retrieve projects from the database
+Feature: The client can retrieve projects from the database
 
   Scenario: client creates a project and then retrieves it
     Given Project "project1"

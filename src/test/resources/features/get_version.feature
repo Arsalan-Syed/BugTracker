@@ -1,4 +1,4 @@
-Feature: the client can fetch the version
+Feature: The client can fetch the version
 
   Scenario: Get the version
   When the client calls GET to "/version"

@@ -1,4 +1,4 @@
-Feature: user should be able to delete a project
+Feature: The client can delete a project
 
   Scenario: Should delete a project
     Given Project "defaultProject"

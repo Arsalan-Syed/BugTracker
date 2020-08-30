@@ -1,4 +1,4 @@
-Feature: user should be able to delete an issue
+Feature: The client can delete an issue
 
   Scenario: Should delete an issue
     Given Project "defaultProject"
