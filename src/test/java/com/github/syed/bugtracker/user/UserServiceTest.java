@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -24,11 +25,17 @@ public class UserServiceTest {
     @Mock
     PasswordEncoder passwordEncoder;
 
+    @Mock
+    JwtTokenUtil jwtTokenUtil;
+
+    @Mock
+    AuthenticationManager authenticationManager;
+
     UserService userService;
 
     @Before
     public void setup(){
-        userService = new UserService(userRepository, passwordEncoder);
+        userService = new UserService(userRepository, passwordEncoder, jwtTokenUtil, authenticationManager);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package com.github.syed.bugtracker.user;
 
-import com.github.syed.bugtracker.user.JwtTokenUtil;
-import com.github.syed.bugtracker.user.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +22,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    UserDetailsServiceImpl jwtUserDetailsService;
+    UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -50,7 +48,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userService.loadUserByUsername(username);
 
             // if token is valid configure Spring Security to manually set
             // authentication
