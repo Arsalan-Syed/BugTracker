@@ -3,6 +3,7 @@ package com.github.syed.bugtracker.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
@@ -21,6 +23,10 @@ public class User {
 
     @NotEmpty
     private String username;
+
+    @NotEmpty
+    @JsonIgnore
+    private String password;
 
     @NotEmpty
     private String email;

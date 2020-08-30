@@ -53,9 +53,9 @@ public class CreateUserRequestValidator implements Validator {
     }
 
     private void checkForExistingUsername(Errors errors, String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        Boolean userExists = userRepository.existsByUsername(username);
 
-        if(userOptional.isPresent()){
+        if(userExists){
             errors.reject(username, "username already exists");
         }
     }
@@ -92,9 +92,9 @@ public class CreateUserRequestValidator implements Validator {
     }
 
     private void validateEmail(Errors errors, String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+        Boolean userExists = userRepository.existsByEmail(email);
 
-        if(userOptional.isPresent()){
+        if(userExists){
             errors.reject(email, "email already exists");
         }
     }
