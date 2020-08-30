@@ -37,13 +37,13 @@ public class UserService implements UserDetailsService {
                 .build());
     }
 
-    public String login(LoginRequest loginRequest) throws Exception {
+    public String login(LoginRequest loginRequest) {
         authenticate(loginRequest);
         UserDetails userDetails = loadUserByUsername(loginRequest.getUsername());
         return jwtTokenUtil.generateJwtToken(userDetails);
     }
 
-    private void authenticate(LoginRequest loginRequest) throws Exception {
+    private void authenticate(LoginRequest loginRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (BadCredentialsException e) {

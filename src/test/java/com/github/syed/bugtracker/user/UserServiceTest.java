@@ -6,14 +6,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,23 +61,20 @@ public class UserServiceTest {
                 .password("password")
                 .build();
 
-        when(userRepository.findByUsernameAndPassword(anyString(), anyString())).thenReturn(java.util.Optional.of(new User()));
-
-        userService.login(request);
-        assertThat(true, is(false));
+        when(userRepository.findByUsername(anyString())).thenReturn(java.util.Optional.of(new User()));
+        when(jwtTokenUtil.generateJwtToken(any())).thenReturn("Token");
+        String token = userService.login(request);
+        assertThat(token, not(nullValue()));
     }
 
-
-    @Test
+    @Test(expected = InvalidCredentialsException.class)
     public void shouldRejectLoginIfUsernameOrPasswordIncorrect() throws Exception {
         LoginRequest request = LoginRequest.builder()
                 .username("username")
                 .password("password")
                 .build();
 
-        when(userRepository.findByUsernameAndPassword(anyString(), anyString())).thenReturn(Optional.empty());
-
+        when(authenticationManager.authenticate(any())).thenThrow(BadCredentialsException.class);
         userService.login(request);
-        assertThat(true, is(false));
     }
 }

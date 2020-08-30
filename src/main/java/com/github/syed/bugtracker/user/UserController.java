@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+    public String login(@Valid @RequestBody LoginRequest loginRequest){
         return service.login(loginRequest);
     }
 

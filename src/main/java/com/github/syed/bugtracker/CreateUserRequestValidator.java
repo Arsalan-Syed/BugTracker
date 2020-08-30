@@ -1,7 +1,6 @@
 package com.github.syed.bugtracker;
 
 import com.github.syed.bugtracker.user.CreateUserRequest;
-import com.github.syed.bugtracker.user.User;
 import com.github.syed.bugtracker.user.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static liquibase.util.StringUtils.hasLowerCase;
 import static liquibase.util.StringUtils.hasUpperCase;

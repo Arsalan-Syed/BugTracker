@@ -162,7 +162,7 @@ public class CreateUserRequestValidatorTest {
 
     @Test
     public void shouldRejectUsernameIfAlreadyExists(){
-        when(userRepository.findOne(any())).thenReturn(Optional.of(new User()));
+        when(userRepository.existsByUsername(any())).thenReturn(true);
         CreateUserRequest request = CreateUserRequest.builder()
                 .username("usernameThatAlreadyExists")
                 .build();
