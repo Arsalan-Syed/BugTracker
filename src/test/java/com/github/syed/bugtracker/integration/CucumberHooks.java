@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker.integration.steps;
+package com.github.syed.bugtracker.integration;
 
 import cucumber.api.java.After;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker.integration.steps;
+package com.github.syed.bugtracker.integration;
 
 import com.github.syed.bugtracker.ColorUtils;
 import com.github.syed.bugtracker.issue.Priority;

@@ -46,10 +46,8 @@ public class UserService implements UserDetailsService {
     private void authenticate(LoginRequest loginRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new InvalidCredentialsException("Invalid credentials");
         }
     }
 

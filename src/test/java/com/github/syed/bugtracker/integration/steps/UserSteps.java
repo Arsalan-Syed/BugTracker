@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker.integration.steps;
 
+import com.github.syed.bugtracker.integration.DataStorage;
 import com.github.syed.bugtracker.user.CreateUserRequest;
 import com.github.syed.bugtracker.user.User;
 import com.github.syed.bugtracker.user.UserRepository;
