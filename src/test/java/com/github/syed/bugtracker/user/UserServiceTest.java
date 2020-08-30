@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -76,5 +77,10 @@ public class UserServiceTest {
 
         when(authenticationManager.authenticate(any())).thenThrow(BadCredentialsException.class);
         userService.login(request);
+    }
+
+    @Test(expected = UsernameNotFoundException.class)
+    public void shouldThrowExceptionIfUsernameNotFound(){
+        userService.loadUserByUsername("username");
     }
 }
