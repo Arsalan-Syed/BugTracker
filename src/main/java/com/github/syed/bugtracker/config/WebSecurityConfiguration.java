@@ -29,12 +29,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests().antMatchers("/register", "/login").permitAll()
-                .anyRequest().authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors().and()
+            .csrf().disable()
+            .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+            .authorizeRequests().antMatchers("/register", "/login").permitAll()
+            .anyRequest().authenticated().and()
+            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         //TODO rm crsf diasble when done testing*/
     }

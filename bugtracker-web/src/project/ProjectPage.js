@@ -4,6 +4,7 @@ import ProjectCard from "../project/ProjectCard";
 import CreateProjectCard from "./CreateProjectCard";
 import Popup from "./Popup";
 import CreateProjectPopupContent from "./CreateProjectPopupContent";
+import {projectService} from "../ProjectService";
 
 class ProjectPage extends Component{
 
@@ -16,10 +17,11 @@ class ProjectPage extends Component{
     }
 
     componentDidMount(){
-        let url = 'http://localhost:8080/projects';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => this.setState({projects: data}))
+        const response = projectService.getAllProjects();
+        console.log(response);
+        if(response != null) {
+            this.setState({projects: response});
+        }
     }
 
     togglePopup = () => {
@@ -38,6 +40,7 @@ class ProjectPage extends Component{
     }
 
     render() {
+        console.log(this.state);
         const projects = this.state.projects.map(p => <ProjectCard project={p}/>)
 
         return <div className="ProjectPage">

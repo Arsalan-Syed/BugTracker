@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import LoginPage from "./login/LoginPage";
-import {Route, Switch} from "react-router";
+import {Route} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import ProjectPage from "./project/ProjectPage";
+import PrivateRoute from "./PrivateRoute";
 
 
 const App = () => {
@@ -14,10 +15,8 @@ const App = () => {
             </header>
 
             <BrowserRouter>
-                <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/projects" component={ProjectPage} />
-                </Switch>
+                <Route path="/login" component={LoginPage} restricted={true}/>
+                <PrivateRoute path="/projects" component={ProjectPage}/>
             </BrowserRouter>
         </div>
     );

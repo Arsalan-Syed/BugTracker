@@ -12,7 +12,7 @@ function login(username, password) {
         password: password
     }, options)
     .then(response => {
-        localStorage.setItem("token", response.data["token"]) //TODO switch to cookies instead of localstorage
+        localStorage.setItem("authToken", response.data["authToken"]) //TODO switch to cookies instead of localstorage
         return response.data;
     })
     .catch(error => {
@@ -20,8 +20,9 @@ function login(username, password) {
     });
 }
 
+//TODO redirect
 function logout(){
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
 }
 
 function register(username, email, password) {
@@ -32,10 +33,8 @@ function register(username, email, password) {
 }
 
 function authHeader(){
-    let token = localStorage.getItem("token");
-    if(token != null){
-        return "Authorization: Bearer "+token;
-    }
+    let token = localStorage.getItem("authToken");
+    return "Bearer "+token;
 }
 
 export const authenticationService = {

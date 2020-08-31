@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Redirect} from 'react-router-dom'
 import {authenticationService} from "../AuthenticationService";
+import {Redirect} from "react-router";
+import {utils} from "../Utils";
 
 class LoginPage extends Component{
 
@@ -9,18 +10,22 @@ class LoginPage extends Component{
         this.state = {
             username: "",
             password: "",
-            redirect: false
+            redirect: utils.isLogin()
         };
 
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
     }
 
-    handleLogin(username, password) {
-        authenticationService.login(username, password);
-        this.setState({
-            redirect: true //change to loggedIn
-        });
+    async handleLogin(username, password) {
+        try {
+            await authenticationService.login(username, password);
+            if(utils.isLogin()){
+                this.props.history.push("/projects");
+            }
+        } catch (e) {
+            alert(e.message);
+        }
     }
 
     updateUsername(event) {
@@ -36,10 +41,6 @@ class LoginPage extends Component{
     }
 
     render(){
-        if (this.state.redirect) {
-            return <Redirect to={"/projects"} />
-        }
-
         return <div className="LoginPage">
             <p>Log in</p>
             <input placeholder="Username" value={this.state.username} onChange={this.updateUsername}/>
