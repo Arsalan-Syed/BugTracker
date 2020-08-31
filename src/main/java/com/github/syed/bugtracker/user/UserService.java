@@ -36,10 +36,12 @@ public class UserService implements UserDetailsService {
                 .build());
     }
 
-    public String login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         authenticate(loginRequest);
         UserDetails userDetails = loadUserByUsername(loginRequest.getUsername());
-        return jwtTokenUtil.generateJwtToken(userDetails);
+        return LoginResponse.builder()
+                .authToken(jwtTokenUtil.generateJwtToken(userDetails))
+                .build();
     }
 
     private void authenticate(LoginRequest loginRequest) {

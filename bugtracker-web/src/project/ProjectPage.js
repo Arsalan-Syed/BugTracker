@@ -35,7 +35,6 @@ class ProjectPage extends Component{
         };
         fetch('http://localhost:8080/project', requestOptions)
             .then(this.togglePopup)
-            //.then(data => this.setState({ postId: data.id }));
     }
 
     render() {

@@ -64,8 +64,8 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(anyString())).thenReturn(java.util.Optional.of(new User()));
         when(jwtTokenUtil.generateJwtToken(any())).thenReturn("Token");
-        String token = userService.login(request);
-        assertThat(token, not(nullValue()));
+        LoginResponse response = userService.login(request);
+        assertThat(response.getAuthToken(), not(nullValue()));
     }
 
     @Test(expected = InvalidCredentialsException.class)

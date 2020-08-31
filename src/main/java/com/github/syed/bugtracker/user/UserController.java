@@ -1,15 +1,15 @@
 package com.github.syed.bugtracker.user;
 
 import com.github.syed.bugtracker.CreateUserRequestValidator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     private final CreateUserRequestValidator validator;
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String login(@Valid @RequestBody LoginRequest loginRequest){
+    public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest){
         return service.login(loginRequest);
     }
 
