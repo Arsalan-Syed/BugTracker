@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker.user;
+package com.github.syed.bugtracker.auth;
 
 import lombok.Builder;
 import lombok.Getter;

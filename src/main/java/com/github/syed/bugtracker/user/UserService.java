@@ -1,5 +1,9 @@
 package com.github.syed.bugtracker.user;
 
+import com.github.syed.bugtracker.auth.InvalidCredentialsException;
+import com.github.syed.bugtracker.auth.JwtTokenUtil;
+import com.github.syed.bugtracker.auth.LoginRequest;
+import com.github.syed.bugtracker.auth.LoginResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

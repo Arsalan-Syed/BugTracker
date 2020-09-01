@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.user;
 
 import com.github.syed.bugtracker.CreateUserRequestValidator;
+import com.github.syed.bugtracker.auth.LoginRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

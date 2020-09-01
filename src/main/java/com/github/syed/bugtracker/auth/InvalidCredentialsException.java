@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker.user;
+package com.github.syed.bugtracker.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

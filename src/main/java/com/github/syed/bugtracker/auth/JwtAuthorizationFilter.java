@@ -1,5 +1,6 @@
-package com.github.syed.bugtracker.user;
+package com.github.syed.bugtracker.auth;
 
+import com.github.syed.bugtracker.user.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

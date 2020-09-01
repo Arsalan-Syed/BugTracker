@@ -1,8 +1,8 @@
 package com.github.syed.bugtracker.user;
 
 import com.github.syed.bugtracker.CreateUserRequestValidator;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.github.syed.bugtracker.auth.LoginRequest;
+import com.github.syed.bugtracker.auth.LoginResponse;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
