@@ -4,7 +4,7 @@ import LoginPage from "./login/LoginPage";
 import {Route} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import ProjectPage from "./project/ProjectPage";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./route/PrivateRoute";
 
 
 const App = () => {

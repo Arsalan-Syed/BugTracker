@@ -4,7 +4,7 @@ import ProjectCard from "../project/ProjectCard";
 import CreateProjectCard from "./CreateProjectCard";
 import Popup from "./Popup";
 import CreateProjectPopupContent from "./CreateProjectPopupContent";
-import {projectService} from "../ProjectService";
+import {projectService} from "./ProjectService";
 
 class ProjectPage extends Component{
 
@@ -16,9 +16,8 @@ class ProjectPage extends Component{
         };
     }
 
-    componentDidMount(){
-        const response = projectService.getAllProjects();
-        console.log(response);
+    async componentDidMount(){
+        const response = await projectService.getAllProjects();
         if(response != null) {
             this.setState({projects: response});
         }
@@ -29,25 +28,14 @@ class ProjectPage extends Component{
         this.setState({popupOpen: !isOpen})
     }
 
-    createProject = () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: 'React POST Request Example', color:'#0ea06f' })
-        };
-        fetch('http://localhost:8080/project', requestOptions)
-            .then(this.togglePopup)
-    }
-
     render() {
-        console.log(this.state);
         const projects = this.state.projects.map(p => <ProjectCard project={p}/>)
 
         return <div className="ProjectPage">
             {projects.length === 0 && <p>You have no projects, try creating one!</p>}
             {projects}
             <CreateProjectCard onClick={this.togglePopup}/>
-            {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={this.createProject}/>} handleClose={this.togglePopup}/>}
+            {this.state.popupOpen && <Popup content={<CreateProjectPopupContent onClick={projectService.createProject} onCreateProject={this.togglePopup}/>} handleClose={this.togglePopup}/>}
         </div>
     }
 

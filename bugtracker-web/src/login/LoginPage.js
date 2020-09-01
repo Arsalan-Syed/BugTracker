@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import {authenticationService} from "../AuthenticationService";
-import {Redirect} from "react-router";
-import {utils} from "../Utils";
+import {authenticationService} from "./AuthenticationService";
+import {utils} from "../utils/Utils";
 
 class LoginPage extends Component{
 
@@ -18,13 +17,9 @@ class LoginPage extends Component{
     }
 
     async handleLogin(username, password) {
-        try {
-            await authenticationService.login(username, password);
-            if(utils.isLogin()){
-                this.props.history.push("/projects");
-            }
-        } catch (e) {
-            alert(e.message);
+        await authenticationService.login(username, password);
+        if(utils.isLogin()){
+            this.props.history.push("/projects");
         }
     }
 
