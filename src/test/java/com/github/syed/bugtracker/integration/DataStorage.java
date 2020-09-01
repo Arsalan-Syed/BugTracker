@@ -1,6 +1,6 @@
 package com.github.syed.bugtracker.integration;
 
-import com.github.syed.bugtracker.ColorUtils;
+import com.github.syed.bugtracker.color.ColorUtils;
 import com.github.syed.bugtracker.issue.Priority;
 import com.github.syed.bugtracker.user.Name;
 

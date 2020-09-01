@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker;
+package com.github.syed.bugtracker.color;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

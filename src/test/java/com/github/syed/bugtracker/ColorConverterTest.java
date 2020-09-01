@@ -1,5 +1,6 @@
 package com.github.syed.bugtracker;
 
+import com.github.syed.bugtracker.color.ColorConverter;
 import org.junit.Test;
 
 import java.awt.*;

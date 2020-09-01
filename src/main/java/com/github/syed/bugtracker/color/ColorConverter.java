@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker;
+package com.github.syed.bugtracker.color;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

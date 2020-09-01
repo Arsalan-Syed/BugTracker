@@ -1,4 +1,4 @@
-package com.github.syed.bugtracker;
+package com.github.syed.bugtracker.color;
 
 import java.awt.*;
 
