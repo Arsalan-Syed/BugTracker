@@ -116,12 +116,12 @@ public class IssueServiceTest {
     }
 
     @Test
-    public void shouldAssignUserToIssueIfTheyAreDeveloper(){
+    public void shouldAssignUserToIssueIfTheyAreDeveloperAndIssueStatusIsTODO(){
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(
                 User.builder().role(Role.DEV).build())
         );
 
-        when(issueRepository.findByIssueId(anyString())).thenReturn(Optional.of(Issue.builder().build()));
+        when(issueRepository.findByIssueId(anyString())).thenReturn(Optional.of(Issue.builder().status(TODO).build()));
 
         AssignDeveloperRequest request = AssignDeveloperRequest.builder().username("username").issueId("issue_1").build();
         issueService.assignDeveloper(request);
@@ -135,10 +135,19 @@ public class IssueServiceTest {
                 User.builder().role(Role.QA).build())
         );
 
-        when(issueRepository.findByIssueId(anyString())).thenReturn(Optional.of(Issue.builder().build()));
+        when(issueRepository.findByIssueId(anyString())).thenReturn(Optional.of(Issue.builder().status(TODO).build()));
 
         AssignDeveloperRequest request = AssignDeveloperRequest.builder().username("username").issueId("issue_1").build();
         issueService.assignDeveloper(request);
+    }
+
+    @Test(expected = InvalidIssueStatusException.class)
+    public void shouldThrowExceptionIfTryToAssignUserToIssueButIssueDoesNotHaveTODOStatus(){
+        when(issueRepository.findByIssueId(anyString())).thenReturn(Optional.of(Issue.builder().status(Status.IN_PROGRESS).build()));
+
+        AssignDeveloperRequest request = AssignDeveloperRequest.builder().username("username").issueId("issue_1").build();
+        issueService.assignDeveloper(request);
+        verify(issueRepository, times(1)).save(any());
     }
 
     private Issue captureIssue() {

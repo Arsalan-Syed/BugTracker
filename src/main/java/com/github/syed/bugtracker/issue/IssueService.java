@@ -75,6 +75,10 @@ public class IssueService {
             throw new IssueNotFoundException("Could not find issue with id: "+request.getIssueId());
         }
 
+        if(issueOptional.get().getStatus() != TODO){
+            throw new InvalidIssueStatusException("Issue should have a status of TODO to be assigned a developer");
+        }
+
         Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
 
         if(userOptional.isEmpty()){
@@ -84,6 +88,7 @@ public class IssueService {
         if(userOptional.get().getRole() != Role.DEV){
             throw new InvalidRoleException("Username "+request.getUsername()+" does not have a developer role");
         }
+
 
 
         Issue issue = issueOptional.get();
