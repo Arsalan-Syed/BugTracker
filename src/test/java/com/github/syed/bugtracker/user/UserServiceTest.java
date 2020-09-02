@@ -7,6 +7,7 @@ import com.github.syed.bugtracker.auth.LoginResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -57,6 +59,28 @@ public class UserServiceTest {
 
         userService.createUser(request);
         verify(userRepository, times(1)).save(any());
+    }
+
+    @Test //handle this another way later
+    public void shouldAssignUserDeveloperRoleByDefault(){
+        CreateUserRequest request = CreateUserRequest.builder()
+                .username("username")
+                .password("password")
+                .matchPassword("password")
+                .email("email@domain.com")
+                .name(Name.builder().firstName("firstName")
+                        .middleName("middleName")
+                        .lastName("lastName").build()
+                )
+                .build();
+
+        userService.createUser(request);
+
+        ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository, times(1)).save(argumentCaptor.capture());
+        User user = argumentCaptor.getValue();
+
+        assertThat(user.getRole(), is(Role.DEV));
     }
 
     @Test

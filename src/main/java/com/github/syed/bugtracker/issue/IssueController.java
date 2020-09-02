@@ -30,4 +30,9 @@ public class IssueController {
     public void deleteIssue(String projectName, String issueName) {
         issueService.deleteIssue(issueName);
     }
+
+    @PutMapping(value = "issue/assign")
+    public void assignDeveloper(@Valid @RequestBody AssignDeveloperRequest username) {
+        issueService.assignDeveloper(username);
+    }
 }

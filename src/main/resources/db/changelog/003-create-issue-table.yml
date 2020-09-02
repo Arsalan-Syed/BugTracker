@@ -1,6 +1,6 @@
 databaseChangeLog:
   -  changeSet:
-       id:  2
+       id: 3
        author:  Arsalan Syed
        changes:
          - createSequence:
@@ -18,6 +18,11 @@ databaseChangeLog:
                     defaultValueComputed: issue_id_seq.NEXTVAL
                     constraints:
                       primaryKey:  true
+                      nullable:  false
+                - column:
+                    name:  issue_id
+                    type:  nvarchar(10)
+                    constraints:
                       nullable:  false
                 - column:
                     name:  project_id
@@ -41,3 +46,9 @@ databaseChangeLog:
                     type:  nvarchar(15)
                     constraints:
                       nullable:  false
+                - column:
+                    name:  user_id
+                    type:  int
+                    constraints:
+                      references: user(id)
+                      foreignKeyName: FK_issue_user

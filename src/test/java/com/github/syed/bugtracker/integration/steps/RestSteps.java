@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.syed.bugtracker.integration.DataStorage;
 import com.github.syed.bugtracker.issue.CreateIssueRequest;
 import com.github.syed.bugtracker.issue.Issue;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -44,7 +45,7 @@ public class RestSteps {
 
     @When("^the client calls POST to \"([^\"]*)\" with \"([^\"]*)\" and parameter \"([^\"]*)\"$")
     public void theClientCallsPOSTToWithAndParameter(String path, String objectId, String projectName) throws Throwable {
-        Issue issue = (Issue) DataStorage.get(objectId);
+        Issue issue = (Issue) DataStorage.get(objectId); //TODO not generic enough for method??
         CreateIssueRequest request = CreateIssueRequest.builder()
                 .issue(issue)
                 .projectName(projectName)
@@ -52,6 +53,13 @@ public class RestSteps {
 
         String body = new ObjectMapper().writeValueAsString(request);
         theClientCallsPOSTToWithBody(path, body);
+    }
+
+    @When("^the client calls PUT to \"([^\"]*)\" with body$")
+    public void theClientCallsPUTToWithBody(String path, String body) throws Throwable {
+        HttpClient client = createHttpClient();
+        HttpRequest request = createPutRequest(path, body);
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     @When("^the client calls DELETE to \"([^\"]*)\"$")
@@ -71,14 +79,21 @@ public class RestSteps {
                 .build();
     }
 
+    private HttpRequest createGetRequest(String path) {
+        return createHttpRequestBuilder(path)
+                .GET()
+                .build();
+    }
+
     private HttpRequest createPostRequest(String path, String body) {
         return createHttpRequestBuilder(path)
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
     }
 
-    private HttpRequest createGetRequest(String path) {
-        return createHttpRequestBuilder(path).GET()
+    private HttpRequest createPutRequest(String path, String body) {
+        return createHttpRequestBuilder(path)
+                .PUT(HttpRequest.BodyPublishers.ofString(body))
                 .build();
     }
 

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.syed.bugtracker.integration.DataStorage;
+import com.github.syed.bugtracker.issue.AssignDeveloperRequest;
 import com.github.syed.bugtracker.issue.Issue;
 import com.github.syed.bugtracker.issue.IssueRepository;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
@@ -86,7 +88,7 @@ public class IssueSteps {
     private void matchIssues(Issue expectedIssue, Issue actualIssue) throws IllegalAccessException {
         Field[] issueFields = expectedIssue.getClass().getDeclaredFields();
 
-        Set<String> ignoredFields = Set.of("id", "project", "status");
+        Set<String> ignoredFields = Set.of("id", "project", "status", "issueId");
 
         for(Field field : issueFields){
             if(ignoredFields.contains(field.getName())){
@@ -108,5 +110,20 @@ public class IssueSteps {
         repository.findOne(Example.of(
                 Issue.builder().name(issue.getName()).build()
         ));
+    }
+
+    @Autowired
+    RestSteps restSteps;
+
+    @When("^the client assigns an issue to developer with username \"([^\"]*)\"$")
+    public void theClientAssignsAnIssueToDeveloperWithUsername(String username) throws Throwable {
+        String issueId = new ObjectMapper().readValue(RestSteps.response.body(), Issue.class).getIssueId();
+        AssignDeveloperRequest request = AssignDeveloperRequest.builder()
+                .username(username)
+                .issueId(issueId)
+                .build();
+
+        String body = new ObjectMapper().writeValueAsString(request);
+        restSteps.theClientCallsPUTToWithBody("/issue/assign", body);
     }
 }

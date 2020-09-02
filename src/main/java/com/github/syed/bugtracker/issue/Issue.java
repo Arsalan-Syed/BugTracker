@@ -2,7 +2,9 @@ package com.github.syed.bugtracker.issue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.syed.bugtracker.project.Project;
+import com.github.syed.bugtracker.user.User;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -22,6 +24,9 @@ public class Issue {
     @JsonIgnore
     private Long id;
 
+    @NaturalId
+    private String issueId;
+
     @NotEmpty
     private String name;
 
@@ -31,6 +36,10 @@ public class Issue {
     private Project project;
 
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User assignedUser;
 
     @NotNull
     private Priority priority;
