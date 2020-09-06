@@ -13,7 +13,7 @@ function get(path){
     return axios.get(API_URL+path, options)
         .then(response => response.data)
         .catch(error => {
-            alert(error);
+            //alert(error);
         });
 }
 
@@ -28,11 +28,28 @@ function post(path, data){
     return axios.post(API_URL+path, data, options)
         .then(response => response.data)
         .catch(error => {
-            alert(error);
+           // alert(error);
         });
 }
 
+
+function postUnAuthenticated(path, data){
+    const options = {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
+
+    return axios.post(API_URL+path, data, options)
+        .then(response => response.data)
+        .catch(error => {
+           // alert(error);
+        });
+}
+
+
 export const restClient = {
     get,
-    post
+    post,
+    postUnAuthenticated
 }

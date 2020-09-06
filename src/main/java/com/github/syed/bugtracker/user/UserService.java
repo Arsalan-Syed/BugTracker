@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
         this.authenticationManager = authenticationManager;
     }
 
-    public void createUser(CreateUserRequest request) {
+    public LoginResponse createUser(CreateUserRequest request) {
         userRepository.save(User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -39,6 +39,11 @@ public class UserService implements UserDetailsService {
                 .name(request.getName())
                 .role(Role.DEV)
                 .build());
+
+        UserDetails userDetails = loadUserByUsername(request.getUsername());
+        return LoginResponse.builder()
+                .authToken(jwtTokenUtil.generateJwtToken(userDetails))
+                .build();
     }
 
     public LoginResponse login(LoginRequest loginRequest) {

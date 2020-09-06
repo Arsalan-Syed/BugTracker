@@ -1,4 +1,4 @@
-function isLogin() {
+function userIsLoggedIn() {
     return localStorage.getItem("authToken") != null;
 }
 
@@ -8,6 +8,6 @@ function authHeader(){
 }
 
 export const utils = {
-    isLogin,
+    userIsLoggedIn,
     authHeader
 }

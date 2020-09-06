@@ -6,7 +6,7 @@ import Popup from "./Popup";
 import CreateProjectPopupContent from "./CreateProjectPopupContent";
 import {projectService} from "./ProjectService";
 
-class ProjectPage extends Component{
+export default class ProjectPage extends Component{
 
     constructor(props) {
         super(props);
@@ -40,5 +40,3 @@ class ProjectPage extends Component{
     }
 
 }
-
-export default ProjectPage;

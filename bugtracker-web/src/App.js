@@ -1,25 +1,42 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
-import LoginPage from "./login/LoginPage";
-import {Route} from "react-router";
+import LoginPage from "./auth/LoginPage";
+import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import ProjectPage from "./project/ProjectPage";
 import PrivateRoute from "./route/PrivateRoute";
+import RegisterPage from "./auth/RegisterPage";
+import HomePage from "./HomePage";
+import NotificationSystem from 'react-notification-system';
+import PageHeader from "./PageHeader";
 
+export default class App extends Component {
+    notificationSystem = React.createRef();
 
-const App = () => {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <p>BugTracker</p>
-            </header>
+    render(){
+        return (
+            <div className="App">
+                <NotificationSystem ref={this.notificationSystem}/>
 
-            <BrowserRouter>
-                <Route path="/login" component={LoginPage} restricted={true}/>
-                <PrivateRoute path="/projects" component={ProjectPage}/>
-            </BrowserRouter>
-        </div>
-    );
+                <PageHeader/>
+
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/login" render={(props) =>
+                            <LoginPage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
+                        />
+
+                        <Route path="/register" render={(props) =>
+                            <RegisterPage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
+                        />
+
+                        <PrivateRoute path="/projects" component={ProjectPage}/>
+                        <Route path="/" component={HomePage} restricted={false}/>
+                    </Switch>
+                </BrowserRouter>
+
+            </div>
+        );
+    }
+
 }
-
-export default App;

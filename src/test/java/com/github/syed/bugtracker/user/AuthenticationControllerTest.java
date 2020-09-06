@@ -13,7 +13,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserControllerTest {
+public class AuthenticationControllerTest {
 
     @Mock
     CreateUserRequestValidator validator;
@@ -21,11 +21,11 @@ public class UserControllerTest {
     @Mock
     UserService service;
 
-    UserController controller;
+    AuthenticationController controller;
 
     @Before
     public void setup(){
-        controller = new UserController(validator, service);
+        controller = new AuthenticationController(validator, service);
     }
 
     @Test

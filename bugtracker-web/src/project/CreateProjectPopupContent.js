@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { SketchPicker } from 'react-color';
 
-class CreateProjectPopupContent extends Component {
+export default class CreateProjectPopupContent extends Component {
 
     constructor(props) {
         super(props);
@@ -43,5 +43,3 @@ class CreateProjectPopupContent extends Component {
     }
 
 }
-
-export default CreateProjectPopupContent;

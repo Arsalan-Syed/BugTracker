@@ -10,19 +10,19 @@ import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class UserController {
+public class AuthenticationController {
 
     private final CreateUserRequestValidator validator;
     private final UserService service;
 
-    public UserController(CreateUserRequestValidator validator, UserService service) {
+    public AuthenticationController(CreateUserRequestValidator validator, UserService service) {
         this.validator = validator;
         this.service = service;
     }
 
     @PostMapping(value = "/register")
-    public void createUser(@Valid @RequestBody CreateUserRequest request){
-        service.createUser(request);
+    public LoginResponse createUser(@Valid @RequestBody CreateUserRequest request){
+        return service.createUser(request);
     }
 
     @PostMapping(value = "/login")
