@@ -7,10 +7,8 @@ import com.github.syed.bugtracker.color.ColorConverter;
 import com.github.syed.bugtracker.color.ColorDeserializer;
 import com.github.syed.bugtracker.color.ColorSerializer;
 import com.github.syed.bugtracker.issue.Issue;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.github.syed.bugtracker.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +16,7 @@ import java.awt.*;
 import java.util.Set;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,4 +39,8 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private Set<Issue> issues;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 }

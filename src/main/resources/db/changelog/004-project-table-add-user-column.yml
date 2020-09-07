@@ -1,0 +1,15 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  4
+       author:  Arsalan Syed
+       changes:
+         - addColumn:
+             tableName: project
+             columns:
+             - column:
+                 name: user_id
+                 type: int
+                 constraints:
+                   nullable:  false
+                   references: user(id)
+                   foreignKeyName: FK_user_project

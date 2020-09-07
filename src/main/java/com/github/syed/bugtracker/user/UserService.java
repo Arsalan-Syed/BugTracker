@@ -7,6 +7,7 @@ import com.github.syed.bugtracker.auth.LoginResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -69,6 +70,16 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
+        return user.get();
+    }
+
+    public User fetchCurrentUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("Could not find "+username);
+        }
         return user.get();
     }
 }
