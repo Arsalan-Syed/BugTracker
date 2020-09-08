@@ -40,7 +40,8 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<Issue> issues;
 
-    @ManyToOne
+    @ManyToOne //should be many to many
     @JoinColumn(name="user_id", nullable = false)
+    @JsonIgnore
     private User user;
 }

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -74,12 +76,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User fetchCurrentUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
-        if(user.isEmpty()){
-            throw new UsernameNotFoundException("Could not find "+username);
-        }
-        return user.get();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (User) principal;
     }
 }

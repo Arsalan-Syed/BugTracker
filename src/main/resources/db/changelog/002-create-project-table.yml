@@ -27,3 +27,10 @@ databaseChangeLog:
                 - column:
                     name:  color
                     type:  char(7)
+                - column:
+                    name: user_id
+                    type: int
+                    constraints:
+                      nullable:  false
+                      references: user(id)
+                      foreignKeyName: FK_user_project

@@ -1,22 +1,24 @@
 package com.github.syed.bugtracker.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.github.syed.bugtracker.project.Project;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
+@Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
@@ -37,6 +39,9 @@ public class User implements UserDetails {
     private Name name;
 
     private Role role;
+
+    @OneToMany(mappedBy = "user") //TODO should be many to many
+    Set<Project> projects;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

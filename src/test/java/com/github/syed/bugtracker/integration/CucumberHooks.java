@@ -1,11 +1,13 @@
 package com.github.syed.bugtracker.integration;
 
+import com.github.syed.bugtracker.user.UserRepository;
 import cucumber.api.java.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CucumberHooks {
 
@@ -15,6 +17,10 @@ public class CucumberHooks {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    UserRepository userRepository;
+
+
     @After
     public void afterScenario(){
         clearAllDatabaseRows();
@@ -22,7 +28,7 @@ public class CucumberHooks {
     }
 
     private void clearAllDatabaseRows() {
-        List<String> tableNames = findAllTableNames();
+        List<String> tableNames = findAllTableNames().stream().filter(tableName -> !tableName.equals("USER")).collect(Collectors.toList());
         tableNames.forEach(tableName -> jdbcTemplate.execute("DELETE FROM "+tableName));
     }
 
