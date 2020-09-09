@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import LoginPage from "./auth/LoginPage";
+import LoginForm from "./auth/LoginForm";
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import DashboardPage from "./project/DashboardPage";
@@ -18,20 +18,17 @@ export default class App extends Component {
             <div className="App">
                 <NotificationSystem ref={this.notificationSystem}/>
 
-                <PageHeader/>
-
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/login" render={(props) =>
-                            <LoginPage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
-                        />
-
                         <Route path="/register" render={(props) =>
                             <RegisterPage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
                         />
 
                         <PrivateRoute path="/dashboard" component={DashboardPage}/>
-                        <Route path="/" component={HomePage} restricted={false}/>
+
+                        <Route path="/" render={(props) =>
+                            <HomePage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
+                        />
                     </Switch>
                 </BrowserRouter>
 

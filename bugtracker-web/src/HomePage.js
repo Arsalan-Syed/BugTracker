@@ -1,5 +1,7 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import LoginForm from "./auth/LoginForm";
+import './HomePage.css'
+import RegisterPage from "./auth/RegisterPage";
 
 export default class HomePage extends Component{
 
@@ -11,11 +13,12 @@ export default class HomePage extends Component{
 
     render(){
         return <div className="HomePage">
-                   <h1>Welcome</h1>
-
-                   <Link to="/login">
-                       <button>Log in</button>
-                   </Link>
+                    <div>
+                        <h1>Welcome</h1>
+                    </div>
+                    <div>
+                        <LoginForm {...this.props} props/>
+                    </div>
                </div>
     }
 

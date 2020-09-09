@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {authenticationService} from "./AuthenticationService";
 import {utils} from "../utils/Utils";
-import './LoginPage.css'
+import './LoginForm.css'
 import {Link} from "react-router-dom";
 
-export default class LoginPage extends Component{
+export default class LoginForm extends Component{
 
     constructor(props) {
         super(props);
@@ -39,17 +39,17 @@ export default class LoginPage extends Component{
 
     render(){
         return <div className="Login">
-                    <h1>Log in</h1>
-                    <p>Please enter your username and password</p>
                     <input placeholder="Username" onChange={this.updateUsername}/>
                     <input type="password" onChange={this.updatePassword} placeholder="Password"/>
                     <div>
-                        <button onClick={() => this.handleLogin(this.state.username, this.state.password)}>Log in</button>
+                        <button className="loginButton" onClick={() => this.handleLogin(this.state.username, this.state.password)}>
+                            <b className="loginButtonText">Log in</b>
+                        </button>
                     </div>
 
                     <div>
                         <Link to="/register">
-                            <a>Don't have an account? Sign up here</a>
+                            <p>Don't have an account? Sign up here</p>
                         </Link>
                     </div>
             </div>
