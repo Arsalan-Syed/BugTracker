@@ -3,7 +3,7 @@ import './App.css';
 import LoginPage from "./auth/LoginPage";
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
-import ProjectPage from "./project/ProjectPage";
+import DashboardPage from "./project/DashboardPage";
 import PrivateRoute from "./route/PrivateRoute";
 import RegisterPage from "./auth/RegisterPage";
 import HomePage from "./HomePage";
@@ -30,7 +30,7 @@ export default class App extends Component {
                             <RegisterPage {...props} notificationSys={this.notificationSystem}/>} restricted={true}
                         />
 
-                        <PrivateRoute path="/projects" component={ProjectPage}/>
+                        <PrivateRoute path="/dashboard" component={DashboardPage}/>
                         <Route path="/" component={HomePage} restricted={false}/>
                     </Switch>
                 </BrowserRouter>

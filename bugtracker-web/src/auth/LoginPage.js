@@ -21,7 +21,7 @@ export default class LoginPage extends Component{
     async handleLogin(username, password) {
         await authenticationService.login(username, password);
         if(utils.userIsLoggedIn()){
-            this.props.history.push("/projects");
+            this.props.history.push("/dashboard");
         }
     }
 

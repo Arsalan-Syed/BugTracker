@@ -34,7 +34,7 @@ export default class RegisterPage extends Component{
             );
         if(utils.userIsLoggedIn()){
             notificationUtils.addSuccessNotification(this.props.notificationSys, "Successfully created account and logged in");
-            this.props.history.push("/projects");
+            this.props.history.push("/dashboard");
         } else{
             notificationUtils.addErrorNotification(this.props.notificationSys, "Failed to create an account");
         }

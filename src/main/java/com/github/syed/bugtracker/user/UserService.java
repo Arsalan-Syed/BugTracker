@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
-
 @Service
 public class UserService implements UserDetailsService {
 

@@ -6,7 +6,7 @@ import Popup from "./Popup";
 import CreateProjectPopupContent from "./CreateProjectPopupContent";
 import {projectService} from "./ProjectService";
 
-export default class ProjectPage extends Component{
+export default class DashboardPage extends Component{
 
     constructor(props) {
         super(props);
