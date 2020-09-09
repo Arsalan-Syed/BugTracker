@@ -56,7 +56,7 @@ public class UserServiceTest {
                         .lastName("lastName").build()
                 )
                 .build();
-
+        when(userRepository.findByUsername(anyString())).thenReturn(java.util.Optional.of(new User()));
         userService.createUser(request);
         verify(userRepository, times(1)).save(any());
     }
@@ -74,6 +74,7 @@ public class UserServiceTest {
                 )
                 .build();
 
+        when(userRepository.findByUsername(anyString())).thenReturn(java.util.Optional.of(new User()));
         userService.createUser(request);
 
         ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);

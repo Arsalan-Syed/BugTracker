@@ -58,8 +58,9 @@ public class ProjectServiceTest {
 
     @Test
     public void shouldGetAllProjects(){
-        when(repository.findAll()).thenReturn(List.of(
-           Project.builder().build()
+        when(userService.fetchCurrentUser()).thenReturn(new User());
+        when(repository.findAllByUser(any())).thenReturn(List.of(
+                Project.builder().build()
         ));
 
         List<Project> projects = service.getProjects();
