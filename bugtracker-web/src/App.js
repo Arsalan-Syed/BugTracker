@@ -5,6 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 import Layout from "./Layout/Layout";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+import ProjectPage from "./Pages/ProjectPage";
 
 
 export default class App extends Component {
@@ -16,6 +17,11 @@ export default class App extends Component {
                     <Switch>
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/register" component={RegisterPage}/>
+
+                        <Route path="/projects" render={(props) =>
+                            <Layout {...props} content={<ProjectPage/>}/>}
+                        />
+
                         <Route path="/" component={Layout}/>
                     </Switch>
                 </BrowserRouter>

@@ -14,10 +14,11 @@ export default class Layout extends Component {
         return (
             <div>
                 <div id="wrapper">
-                    <Leftside></Leftside>
-                    <div id="content-wrapper" class="d-flex flex-column">
+                    <Leftside/>
+                    <div id="content-wrapper" className="d-flex flex-column">
                         <div id="content">
                             <Header />
+                            {this.props.content}
                         </div>
                         <Footer />
                     </div>
