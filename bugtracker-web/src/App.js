@@ -3,6 +3,7 @@ import './App.css';
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import Layout from "./Layout/Layout";
+import LoginPage from "./Pages/LoginPage";
 
 
 export default class App extends Component {
@@ -12,6 +13,7 @@ export default class App extends Component {
 
                 <BrowserRouter>
                     <Switch>
+                        <Route path="/login" component={LoginPage}/>
                         <Route path="/" component={Layout}/>
                     </Switch>
                 </BrowserRouter>
