@@ -73,21 +73,11 @@ export class Leftside extends Component {
                     </li>
                     <li class="nav-item">
                         <Link class="nav-link" to="/color"> <i class="fas fa-fw fa-chart-area"></i>Colors</Link>
-                        {/* <a class="nav-link" href="charts.html">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Charts</span></a> */}
                     </li>
                     <li class="nav-item">
                         <Link class="nav-link" to="/table">  <i class="fas fa-fw fa-table"></i>Tables</Link>
-                        {/* <a class="nav-link" href="tables.html">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Tables</span></a> */}
                     </li>
                     <hr class="sidebar-divider d-none d-md-block" />
-                    <div class="text-center d-none d-md-inline">
-                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                    </div>
-
                 </ul>
             </div>
         )
