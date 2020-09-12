@@ -23,7 +23,6 @@ export default class ProjectPage extends Component {
         })
     }
 
-
     render(){
         return (
             <div className="container-fluid">
