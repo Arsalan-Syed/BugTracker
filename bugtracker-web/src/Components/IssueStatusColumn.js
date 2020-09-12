@@ -1,5 +1,6 @@
 import React from 'react';
 import IssueCard from "./IssueCard";
+import '../Styles/IssueStatusColumn.css';
 
 const IssueStatusColumn = props => (
     <div className="card shadow h-100 py-2">
@@ -10,7 +11,7 @@ const IssueStatusColumn = props => (
                 </div>
             </div>
         </div>
-        <div>
+        <div className="issue-status-column-header">
             <IssueCard issueName={"Issue #1"}/>
             <IssueCard issueName={"Issue #2"}/>
             <IssueCard issueName={"Issue #3"}/>
