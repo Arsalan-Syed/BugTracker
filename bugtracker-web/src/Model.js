@@ -11,10 +11,6 @@ const Model = function () {
         this.notifyObservers({"queryText":text});
     }
 
-    this.getQueryText = function(){
-        return queryText;
-    }
-
     this.addObserver = function (observer) {
         observers.push(observer);
     };

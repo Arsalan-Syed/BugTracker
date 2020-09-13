@@ -6,7 +6,6 @@ const IssueCard = props => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
-
     const showModal = () => {
         setIsOpen(true);
     }
@@ -20,7 +19,7 @@ const IssueCard = props => {
             <Modal show={isOpen}>
                 <Modal.Header>
                     <Modal.Title>
-                        {props.issueName}
+                        {props.issue.name}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Body</Modal.Body>
@@ -32,7 +31,7 @@ const IssueCard = props => {
 
             <div className="card shadow mb-4">
                 <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between" onClick={showModal} >
-                    <h6 className="m-0 font-weight-bold text-primary">{props.issueName}</h6>
+                    <h6 className="m-0 font-weight-bold text-primary">{props.issue.name}</h6>
                     <div className="dropdown no-arrow">
                         <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
@@ -48,7 +47,7 @@ const IssueCard = props => {
                     </div>
                 </div>
                 <div className="card-body">
-                    Finish up this website
+                    {props.issue.description}
                 </div>
             </div>
         </div>

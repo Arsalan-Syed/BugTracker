@@ -26,11 +26,9 @@ export default class ProjectsPage extends Component {
     update = (obj) =>{
         let queryText = obj["queryText"];
 
-        if(!this.textIsEmpty(queryText)){
-            this.setState({
+       this.setState({
                 "queryText": queryText
-            })
-        }
+        });
     }
 
     showModal = () => {
@@ -50,7 +48,7 @@ export default class ProjectsPage extends Component {
             return true;
         }
 
-        return projectName.includes(queryText);
+        return projectName.toLowerCase().includes(queryText.toLowerCase());
     }
 
     textIsEmpty = (text) => {
