@@ -5,11 +5,21 @@ const Model = function () {
     let queryText = null;
     let observers = [];
     let projects = [];
+    let project = null;
 
 
     this.setQueryText = function(text){
         queryText = text;
         this.notifyObservers({"queryText":text});
+    }
+
+    this.setProject = function(proj){
+        project = proj
+        this.notifyObservers({"project":proj});
+    }
+
+    this.getProject = function(){
+        return project;
     }
 
     this.addObserver = function (observer) {

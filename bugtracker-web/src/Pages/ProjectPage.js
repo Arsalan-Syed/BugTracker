@@ -15,19 +15,25 @@ export default class ProjectPage extends Component {
                 {"name": "Issue #3","status":"TESTING", "description":  "Login to home page"},
                 {"name": "Issue #4","status":"DONE", "description": "Set up theme"}
             ],
-            queryText: null
+            queryText: null,
+            project: null
         };
     }
 
     componentDidMount() {
         modelInstance.addObserver(this);
+
+        let project = modelInstance.getProject();
+        this.setState({
+            "project": project
+        })
     }
 
     update = (obj) =>{
-        let queryText = obj["queryText"];
+        let project = obj["project"];
 
         this.setState({
-            "queryText": queryText
+            "project": project
         });
     }
 
@@ -73,6 +79,14 @@ export default class ProjectPage extends Component {
         return prettyText;
     }
 
+    getProjectName = () => {
+        if(this.state.project != null){
+            let name = this.state.project.name;
+            return name == null ? "" : name;
+        }
+        return "";
+    }
+
     render(){
         let statuses = ['TODO', 'IN_PROGRESS', 'TESTING', 'DONE'];
 
@@ -98,7 +112,7 @@ export default class ProjectPage extends Component {
                 </Modal>
 
                 <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 className="h3 mb-0 text-gray-800">{this.props.projectName}</h1>
+                    <h1 className="h3 mb-0 text-gray-800">{this.getProjectName()}</h1>
 
                     <button className="btn-primary btn-circle" onClick={this.showModal}>
                         <i className="fab">+</i>

@@ -3,6 +3,7 @@ import ProjectCard from "../Components/ProjectCard";
 import Modal from "react-bootstrap/Modal";
 import Form from 'react-bootstrap/Form'
 import {modelInstance} from "../Data/Model";
+import {Redirect} from "react-router-dom";
 
 
 export default class ProjectsPage extends Component {
@@ -13,7 +14,8 @@ export default class ProjectsPage extends Component {
             modalOpen: false,
             queryText: null,
             projects: [],
-            projectName: null
+            projectName: null,
+            redirect: false
         };
 
         this.updateProjectName = this.updateProjectName.bind(this);
@@ -72,23 +74,35 @@ export default class ProjectsPage extends Component {
         });
     }
 
-    afterSubmission(event){
-        event.preventDefault();
+    selectProject = (project) => {
+        console.log(project);
+        modelInstance.setProject(project);
+        this.setState({"redirect":true});
+        console.log("DONE");
     }
 
     render(){
-        let visibleProjects = this.state.projects
-            .filter(proj => this.filterProjectsByQueryText(proj.name, this.state.queryText))
-            .map(proj =>
-                <div className="col-xl-3 col-md-6 mb-4">
-                    <ProjectCard project={proj}/>
-                </div>
-            );
+        console.log(this.state);
+
+        let visibleProjects = null;
+        if(this.state.projects == null){
+            visibleProjects = [];
+        } else{
+            visibleProjects = this.state.projects
+                .filter(proj => this.filterProjectsByQueryText(proj.name, this.state.queryText))
+                .map(proj =>
+                    <div className="col-xl-3 col-md-6 mb-4" onClick={() => this.selectProject(proj)}>
+                        <ProjectCard project={proj}/>
+                    </div>
+                );
+        }
+
 
         let createProjectMessage = <div className="container"><h5>You have no projects, let's create one</h5></div>
 
         return (
             <div className="container-fluid">
+                {this.state.redirect && <Redirect to="/project"/>}
                 <Modal show={this.state.modalOpen}>
                     <Modal.Header>
                         <Modal.Title>
