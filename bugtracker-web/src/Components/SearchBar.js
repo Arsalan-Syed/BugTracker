@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {modelInstance} from "../Model";
+import {modelInstance} from "../Data/Model";
 
 export default class SearchBar extends Component {
 

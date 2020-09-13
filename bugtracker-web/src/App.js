@@ -7,6 +7,8 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import ProjectPage from "./Pages/ProjectPage";
+import HomePage from "./Pages/HomePage";
+
 
 
 export default class App extends Component {
@@ -27,7 +29,7 @@ export default class App extends Component {
                             <Layout {...props} content={<ProjectsPage/>}/>}
                         />
 
-                        <Route path="/" component={Layout}/>
+                        <Route path="/" component={HomePage}/>
                     </Switch>
                 </BrowserRouter>
 

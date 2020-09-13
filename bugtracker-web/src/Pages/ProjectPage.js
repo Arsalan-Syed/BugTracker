@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import IssueStatusColumn from "../Components/IssueStatusColumn";
 import Modal from "react-bootstrap/Modal";
-import {modelInstance} from "../Model";
+import {modelInstance} from "../Data/Model";
 
 export default class ProjectPage extends Component {
 
