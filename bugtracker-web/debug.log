@@ -1,0 +1,12 @@
+[0913/140819.607:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0913/140819.610:ERROR:exception_snapshot_win.cc(99)] thread ID 15188 not found in process
+[0913/140819.610:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
