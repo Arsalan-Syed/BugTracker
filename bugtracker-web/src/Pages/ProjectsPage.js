@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import ProjectCard from "../Components/ProjectCard";
 import Modal from "react-bootstrap/Modal";
+import Form from 'react-bootstrap/Form'
 import {modelInstance} from "../Data/Model";
+
 
 export default class ProjectsPage extends Component {
 
@@ -9,25 +11,29 @@ export default class ProjectsPage extends Component {
         super(props);
         this.state = {
             modalOpen: false,
-            projects: [
-                {"name":"Project #1"},
-                {"name":"Project #2"},
-                {"name":"Project #3"},
-                {"name":"Project #4"}
-            ],
-            queryText: null
+            queryText: null,
+            projects: [],
+            projectName: null
         };
+
+        this.updateProjectName = this.updateProjectName.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         modelInstance.addObserver(this);
+        const response = await modelInstance.getAllProjects();
+        if(response != null) {
+            this.setState({projects: response});
+        }
     }
 
     update = (obj) =>{
         let queryText = obj["queryText"];
+        let projects = obj["projects"];
 
-       this.setState({
-                "queryText": queryText
+        this.setState({
+            "queryText": queryText,
+            "projects": projects
         });
     }
 
@@ -35,6 +41,11 @@ export default class ProjectsPage extends Component {
         this.setState({
             modalOpen: true
         })
+    }
+
+    createProject = (projectName, projectColor) => {
+        modelInstance.createProject(projectName, projectColor);
+        this.hideModal();
     }
 
     hideModal = () => {
@@ -55,6 +66,16 @@ export default class ProjectsPage extends Component {
         return text == null || text.trim() === '';
     }
 
+    updateProjectName = (event) => {
+        this.setState({
+            projectName: event.target.value
+        });
+    }
+
+    afterSubmission(event){
+        event.preventDefault();
+    }
+
     render(){
         let visibleProjects = this.state.projects
             .filter(proj => this.filterProjectsByQueryText(proj.name, this.state.queryText))
@@ -64,6 +85,8 @@ export default class ProjectsPage extends Component {
                 </div>
             );
 
+        let createProjectMessage = <div className="container"><h5>You have no projects, let's create one</h5></div>
+
         return (
             <div className="container-fluid">
                 <Modal show={this.state.modalOpen}>
@@ -72,10 +95,24 @@ export default class ProjectsPage extends Component {
                             Create an new project
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Body</Modal.Body>
+                    <Modal.Body>
+                        <Form novalidate>
+                            <Form.Row>
+                                <Form.Group md="4">
+                                    <Form.Label>Project name</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        onChange={this.updateProjectName}
+                                    />
+                                    <Form.Control.Feedback type="invalid">Project name cannot be empty</Form.Control.Feedback>
+                                </Form.Group>
+                            </Form.Row>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer>
                         <button className="btn btn-danger" onClick={this.hideModal}>Cancel</button>
-                        <button className="btn btn-primary" onClick={this.hideModal}>Save</button>
+                        <button className="btn btn-primary" onClick={() => this.createProject(this.state.projectName, "#ffffff")}>Save</button>
                     </Modal.Footer>
                 </Modal>
 
@@ -87,7 +124,8 @@ export default class ProjectsPage extends Component {
                 </div>
 
                 <div className="row">
-                    {visibleProjects}
+                    {visibleProjects.length > 0 && visibleProjects}
+                    {visibleProjects.length === 0 && createProjectMessage}
                 </div>
             </div>
     );

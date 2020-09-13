@@ -2,16 +2,15 @@ import {restClient} from "../utils/RestClient";
 
 
 async function getAllProjects(){
-    let response = await restClient.get("projects");
-    return response;
+    return await restClient.get("projects");
 }
 
-function createProject (name, color){
+async function createProject (name, color){
     let data = {
         name: name,
         color: color
     }
-    restClient.post("project", data);
+    return await restClient.post("project", data);
 }
 
 export const projectService = {

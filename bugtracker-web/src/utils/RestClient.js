@@ -17,7 +17,7 @@ function get(path){
         });
 }
 
-function post(path, data){
+async function post(path, data){
     const options = {
         headers: {
             'Content-Type': 'application/json',
@@ -25,11 +25,9 @@ function post(path, data){
         }
     };
 
-    return axios.post(API_URL+path, data, options)
+    return await axios.post(API_URL+path, data, options)
         .then(response => response.data)
-        .catch(error => {
-           // alert(error);
-        });
+        .catch(error => JSON.parse(JSON.stringify(error)));
 }
 
 
