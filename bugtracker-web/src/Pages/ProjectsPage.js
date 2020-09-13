@@ -1,15 +1,36 @@
 import React, {Component} from 'react';
 import ProjectCard from "../Components/ProjectCard";
 import Modal from "react-bootstrap/Modal";
-
+import {modelInstance} from "../Model";
 
 export default class ProjectsPage extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            modalOpen: false
+            modalOpen: false,
+            projects: [
+                {"name":"Project #1"},
+                {"name":"Project #2"},
+                {"name":"Project #3"},
+                {"name":"Project #4"}
+            ],
+            queryText: null
         };
+    }
+
+    componentDidMount() {
+        modelInstance.addObserver(this);
+    }
+
+    update = (obj) =>{
+        let queryText = obj["queryText"];
+
+        if(!this.textIsEmpty(queryText)){
+            this.setState({
+                "queryText": queryText
+            })
+        }
     }
 
     showModal = () => {
@@ -24,7 +45,27 @@ export default class ProjectsPage extends Component {
         })
     }
 
+    filterProjectsByQueryText = (projectName, queryText) => {
+        if(this.textIsEmpty(queryText)){
+            return true;
+        }
+
+        return projectName.includes(queryText);
+    }
+
+    textIsEmpty = (text) => {
+        return text == null || text.trim() === '';
+    }
+
     render(){
+        let visibleProjects = this.state.projects
+            .filter(proj => this.filterProjectsByQueryText(proj.name, this.state.queryText))
+            .map(proj =>
+                <div className="col-xl-3 col-md-6 mb-4">
+                    <ProjectCard project={proj}/>
+                </div>
+            );
+
         return (
             <div className="container-fluid">
                 <Modal show={this.state.modalOpen}>
@@ -48,21 +89,7 @@ export default class ProjectsPage extends Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-xl-3 col-md-6 mb-4">
-                        <ProjectCard projectName={"Project #1"}/>
-                    </div>
-
-                    <div className="col-xl-3 col-md-6 mb-4">
-                        <ProjectCard projectName={"Project #2"}/>
-                    </div>
-
-                    <div className="col-xl-3 col-md-6 mb-4">
-                        <ProjectCard projectName={"Project #3"}/>
-                    </div>
-
-                    <div className="col-xl-3 col-md-6 mb-4">
-                        <ProjectCard projectName={"Project #4"}/>
-                    </div>
+                    {visibleProjects}
                 </div>
             </div>
     );
