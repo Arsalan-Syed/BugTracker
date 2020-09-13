@@ -1,7 +1,8 @@
 import React from 'react';
+import '../Styles/ProjectCard.css';
 
 const ProjectCard = props => (
-    <div className="card border-left-primary shadow h-100 py-2">
+    <div className="project-card card border-left-primary shadow h-100 py-2">
         <div className="card-body">
             <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
