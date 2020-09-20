@@ -4,7 +4,7 @@ package com.github.syed.bugtracker.issue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Set;
 
 @RestController
 public class IssueController {
@@ -21,7 +21,7 @@ public class IssueController {
     }
 
     @GetMapping("/project/{projectName}/issues")
-    public List<Issue> getIssues(@PathVariable String projectName) {
+    public Set<Issue> getIssues(@PathVariable String projectName) {
         return issueService.getIssues(projectName);
     }
 

@@ -24,6 +24,11 @@ public class ProjectController {
         return projectService.getProjects();
     }
 
+    @GetMapping(value = "/projects/{name}")
+    public Project getProject(@PathVariable String name) throws MissingProjectException {
+        return projectService.getProject(name);
+    }
+
     @DeleteMapping(value = "/project/{name}")
     public void deleteProject(@PathVariable String name) {
         projectService.deleteProject(name);

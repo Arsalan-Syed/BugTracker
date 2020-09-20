@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -34,6 +35,12 @@ public class ProjectControllerTest {
     public void shouldCallServiceForGettingAllProjects(){
         projectController.getProjects();
         verify(projectService, times(1)).getProjects();
+    }
+
+    @Test
+    public void shouldCallServiceForGettingSingleProject() throws MissingProjectException {
+        projectController.getProject("ProjectName");
+        verify(projectService, times(1)).getProject(anyString());
     }
 
     @Test

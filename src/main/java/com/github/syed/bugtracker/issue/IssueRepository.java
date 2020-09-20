@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface IssueRepository extends JpaRepository<Issue, Long> {
-    List<Issue> findByProject(Project projectForIssue);
+    Set<Issue> findByProject(Project projectForIssue);
     Optional<Issue> findByIssueId(String issueId);
 }

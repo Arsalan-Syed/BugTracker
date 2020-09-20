@@ -14,8 +14,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.github.syed.bugtracker.issue.Status.TODO;
 
@@ -37,13 +38,20 @@ public class IssueService {
 
         issue.setStatus(TODO);
         issue.setIssueId(generateRandomString());
+        issue.setProject(project);
 
-        project.addIssue(issue);
+        Set<Issue> issues = project.getIssues();
+        if(issues == null){
+            issues = new HashSet<>();
+        }
+        issues.add(issue);
+        project.setIssues(issues);
 
-        return issueRepository.save(issue);
+        projectRepository.save(project);
+        return issue;
     }
 
-    public List<Issue> getIssues(String projectName) {
+    public Set<Issue> getIssues(String projectName) {
         Project project = findProjectByName(projectName);
         return issueRepository.findByProject(project);
     }

@@ -24,28 +24,28 @@ import static org.mockito.Mockito.*;
 public class ProjectServiceTest {
 
     @Mock
-    ProjectRepository repository;
+    UserService userService;
 
     @Mock
-    UserService userService;
+    ProjectDAO dao;
 
     ProjectService service;
 
     @Before
     public void setup(){
-        service = new ProjectService(repository, userService);
+        service = new ProjectService(userService, dao);
     }
 
     @Test
     public void shouldCreateNewProject(){
         Project project = new Project();
         service.create(project);
-        verify(repository, times(1)).save(any(Project.class));
+        verify(dao, times(1)).save(any(Project.class));
     }
 
     @Test(expected = DuplicateProjectNameException.class)
     public void shouldNotCreateProjectIfThereExistsProjectWithSameName(){
-        when(repository.findOne(any())).thenReturn(Optional.of(Project.builder()
+        when(dao.findByUserAndName(any(), anyString())).thenReturn(Optional.of(Project.builder()
                 .name("Name")
                 .build()));
 
@@ -59,7 +59,7 @@ public class ProjectServiceTest {
     @Test
     public void shouldGetAllProjects(){
         when(userService.fetchCurrentUser()).thenReturn(new User());
-        when(repository.findAllByUser(any())).thenReturn(List.of(
+        when(dao.getAllProjects(any())).thenReturn(List.of(
                 Project.builder().build()
         ));
 
@@ -71,9 +71,9 @@ public class ProjectServiceTest {
     public void shouldDeleteAProject(){
         String projectName = "projectName";
         Project project = Project.builder().name(projectName).build();
-        when(repository.findOne(any())).thenReturn(Optional.ofNullable(project));
+        when(dao.findByUserAndName(any(), anyString())).thenReturn(Optional.ofNullable(project));
         service.deleteProject(projectName);
-        verify(repository, times(1)).delete(any());
+        verify(dao, times(1)).delete(any());
     }
 
     @Test(expected = ProjectNotFoundException.class)
@@ -87,7 +87,7 @@ public class ProjectServiceTest {
         Project project = Project.builder().user(user).build();
 
         when(userService.fetchCurrentUser()).thenReturn(user);
-        when(repository.findAllByUser(user)).thenReturn(Collections.singletonList(project));
+        when(dao.getAllProjects(user)).thenReturn(Collections.singletonList(project));
         List<Project> projects = service.getProjects();
         assertThat(projects, hasSize(1));
     }
@@ -104,7 +104,7 @@ public class ProjectServiceTest {
 
     private Project captureProject() {
         ArgumentCaptor<Project> argumentCaptor = ArgumentCaptor.forClass(Project.class);
-        verify(repository, times(1)).save(argumentCaptor.capture());
+        verify(dao, times(1)).save(argumentCaptor.capture());
         return argumentCaptor.getValue();
     }
 }

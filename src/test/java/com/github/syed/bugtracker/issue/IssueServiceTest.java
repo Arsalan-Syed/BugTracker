@@ -16,8 +16,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.github.syed.bugtracker.issue.Status.TODO;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,7 +56,7 @@ public class IssueServiceTest {
 
         when(projectRepository.findOne(any())).thenReturn(Optional.of(Project.builder().name(projectName).build()));
         issueService.createIssue(issue, projectName);
-        verify(issueRepository, times(1)).save(issue);
+        verify(projectRepository, times(1)).save(any(Project.class));
     }
 
     @Test
@@ -97,8 +99,8 @@ public class IssueServiceTest {
         String projectName = "Project name";
 
         when(projectRepository.findOne(any())).thenReturn(Optional.of(Project.builder().name(projectName).build()));
-        when(issueRepository.findByProject(any())).thenReturn(List.of(new Issue()));
-        List<Issue> issues = issueService.getIssues(projectName);
+        when(issueRepository.findByProject(any())).thenReturn(Set.of(new Issue()));
+        Set<Issue> issues = issueService.getIssues(projectName);
         assertThat(issues, hasSize(1));
     }
 
@@ -153,9 +155,11 @@ public class IssueServiceTest {
     }
 
     private Issue captureIssue() {
-        ArgumentCaptor<Issue> captor = ArgumentCaptor.forClass(Issue.class);
-        verify(issueRepository).save(captor.capture());
-        return captor.getValue();
+        ArgumentCaptor<Project> captor = ArgumentCaptor.forClass(Project.class);
+        verify(projectRepository).save(captor.capture());
+        List<Issue> issues = new ArrayList();
+        issues.addAll(captor.getValue().getIssues());
+        return issues.get(0);
     }
 
 }

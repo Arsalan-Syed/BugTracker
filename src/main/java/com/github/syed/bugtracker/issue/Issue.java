@@ -27,7 +27,7 @@ public class Issue {
     @NotEmpty
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name="project_id", nullable = false)
     @JsonBackReference
     private Project project;

@@ -39,18 +39,20 @@ public class Project {
     @JsonDeserialize(using = ColorDeserializer.class)
     private Color color;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Set<Issue> issues = new HashSet<>();
+    private Set<Issue> issues;
 
     @ManyToOne //should be many to many
     @JoinColumn(name="user_id", nullable = false)
     @JsonIgnore
     private User user;
 
-    //TODO
     public void addIssue(Issue issue){
-//        this.issues.add(issue);
+        if(issues == null){
+            issues = new HashSet<>();
+        }
+        this.issues.add(issue);
         issue.setProject(this);
     }
 }
