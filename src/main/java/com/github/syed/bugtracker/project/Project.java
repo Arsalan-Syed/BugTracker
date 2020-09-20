@@ -1,6 +1,7 @@
 package com.github.syed.bugtracker.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.syed.bugtracker.color.ColorConverter;
@@ -13,6 +14,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -37,11 +39,18 @@ public class Project {
     @JsonDeserialize(using = ColorDeserializer.class)
     private Color color;
 
-    @OneToMany(mappedBy = "project")
-    private Set<Issue> issues;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Issue> issues = new HashSet<>();
 
     @ManyToOne //should be many to many
     @JoinColumn(name="user_id", nullable = false)
     @JsonIgnore
     private User user;
+
+    //TODO
+    public void addIssue(Issue issue){
+//        this.issues.add(issue);
+        issue.setProject(this);
+    }
 }

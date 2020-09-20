@@ -1,5 +1,7 @@
 package com.github.syed.bugtracker.issue;
 
+import com.github.syed.bugtracker.issue.exception.InvalidIssueStatusException;
+import com.github.syed.bugtracker.issue.exception.InvalidRoleException;
 import com.github.syed.bugtracker.issue.exception.IssueNotFoundException;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
@@ -32,9 +34,12 @@ public class IssueService {
 
     public Issue createIssue(Issue issue, String projectName) {
         Project project = findProjectByName(projectName);
-        issue.setProject(project);
+
         issue.setStatus(TODO);
         issue.setIssueId(generateRandomString());
+
+        project.addIssue(issue);
+
         return issueRepository.save(issue);
     }
 

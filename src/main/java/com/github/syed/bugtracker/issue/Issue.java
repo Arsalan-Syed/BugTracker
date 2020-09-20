@@ -1,10 +1,9 @@
 package com.github.syed.bugtracker.issue;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.user.User;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -21,27 +20,26 @@ public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "issue_id_generator")
     @SequenceGenerator(name="issue_id_generator", sequenceName = "issue_id_seq", allocationSize = 1)
-    @JsonIgnore
     private Long id;
 
-    @NaturalId
     private String issueId;
 
     @NotEmpty
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="project_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     private Project project;
 
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id", nullable = false)
     private User assignedUser;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
 }

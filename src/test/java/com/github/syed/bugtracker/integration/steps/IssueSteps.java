@@ -7,6 +7,7 @@ import com.github.syed.bugtracker.integration.DataStorage;
 import com.github.syed.bugtracker.issue.AssignDeveloperRequest;
 import com.github.syed.bugtracker.issue.Issue;
 import com.github.syed.bugtracker.issue.IssueRepository;
+import com.github.syed.bugtracker.project.Project;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -104,7 +105,7 @@ public class IssueSteps {
     }
 
     @And("^the Issue \"([^\"]*)\" is no longer in the database$")
-    public void theIssueIsNoLongerInTheDatabase(String issueId) throws Throwable {
+    public void theIssueIsNoLongerInTheDatabase(String issueId)  {
         Issue issue = (Issue) DataStorage.get(issueId);
 
         repository.findOne(Example.of(
@@ -125,5 +126,20 @@ public class IssueSteps {
 
         String body = new ObjectMapper().writeValueAsString(request);
         restSteps.theClientCallsPUTToWithBody("/issue/assign", body);
+    }
+
+    @And("^the response contains issues in project$")
+    public void theResponseContainsIssuesInProject(List<String> issueIds) throws JsonProcessingException, IllegalAccessException {
+        String responseBody = RestSteps.response.body();
+        List<Project> projects = new ObjectMapper().readValue(responseBody, new TypeReference<>(){});
+
+        for(String id : issueIds){
+            Issue expectedIssue = (Issue) DataStorage.get(id);
+            Issue actualIssue = projects.get(0).getIssues().stream()
+                    .filter(project -> expectedIssue.getName().equals(project.getName()))
+                    .findFirst()
+                    .get();
+            matchIssues(expectedIssue, actualIssue);
+        }
     }
 }

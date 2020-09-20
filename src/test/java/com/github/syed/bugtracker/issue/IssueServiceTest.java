@@ -1,5 +1,7 @@
 package com.github.syed.bugtracker.issue;
 
+import com.github.syed.bugtracker.issue.exception.InvalidIssueStatusException;
+import com.github.syed.bugtracker.issue.exception.InvalidRoleException;
 import com.github.syed.bugtracker.issue.exception.IssueNotFoundException;
 import com.github.syed.bugtracker.project.Project;
 import com.github.syed.bugtracker.project.ProjectRepository;
