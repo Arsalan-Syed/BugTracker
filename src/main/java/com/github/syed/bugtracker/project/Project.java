@@ -39,7 +39,7 @@ public class Project {
     @JsonDeserialize(using = ColorDeserializer.class)
     private Color color;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Issue> issues;
 
