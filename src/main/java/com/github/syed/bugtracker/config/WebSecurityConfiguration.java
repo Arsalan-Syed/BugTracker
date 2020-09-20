@@ -31,10 +31,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and()
             .csrf().disable()
             .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests().antMatchers("/register", "/login").permitAll()
+            .authorizeRequests().antMatchers("/register", "/login", "/h2-console/**").permitAll()
             .anyRequest().authenticated().and()
             .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.headers().frameOptions().disable();
 
         //TODO rm crsf diasble when done testing*/
     }
@@ -49,4 +51,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 }
