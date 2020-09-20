@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class AuthenticationController {
 
     private final CreateUserRequestValidator validator;
