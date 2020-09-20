@@ -24,7 +24,7 @@ public class ProjectService {
         validateProjectNameUnique(project.getName());
         User user = userService.fetchCurrentUser();
         project.setUser(user);
-        return repository.save(project);
+        return dao.save(project);
     }
 
     public List<Project> getProjects() {
