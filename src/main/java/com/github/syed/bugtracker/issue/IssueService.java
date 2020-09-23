@@ -38,14 +38,8 @@ public class IssueService {
 
         issue.setStatus(TODO);
         issue.setIssueId(generateRandomString());
-        issue.setProject(project);
 
-        Set<Issue> issues = project.getIssues();
-        if(issues == null){
-            issues = new HashSet<>();
-        }
-        issues.add(issue);
-        project.setIssues(issues);
+        project.addIssue(issue);
 
         projectRepository.save(project);
         return issue;

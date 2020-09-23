@@ -8,9 +8,12 @@ async function login(username, password) {
 
     try{
         const response = await restClient.postUnAuthenticated("login", data);
-        localStorage.setItem("authToken", response["authToken"]) //TODO switch to cookies instead of localstorage
+        if(response["message"] == null){
+            localStorage.setItem("authToken", response["authToken"]) //TODO switch to cookies instead of localstorage
+        }
     } catch(e){
-        
+        localStorage.removeItem("authToken");
+        alert("login fail");
     }
 }
 

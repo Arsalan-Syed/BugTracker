@@ -1,40 +1,46 @@
 package com.github.syed.bugtracker.project;
 
-import com.github.syed.bugtracker.issue.Issue;
-import com.github.syed.bugtracker.issue.IssueRepository;
 import com.github.syed.bugtracker.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public class ProjectDAO {
 
-    @Autowired
-    ProjectRepository repository;
+    private final ProjectRepository repository;
+    private final EntityManager entityManager;
 
-    @Autowired
-    IssueRepository issueRepository;
+    public ProjectDAO(ProjectRepository repository, EntityManager entityManager) {
+        this.repository = repository;
+        this.entityManager = entityManager;
+    }
 
-    //TODO is there a way to automatically fetch issues?
-    @Transactional
     public List<Project> getAllProjects(User user) {
-        List<Project> projects = repository.findAllByUser(user);
-
-        for(Project project: projects){
-            Set<Issue> issues = issueRepository.findByProject(project);
-            project.setIssues(issues);
-        }
-
-        return projects;
+        Query query = entityManager.createQuery("SELECT DISTINCT p FROM Project p LEFT JOIN FETCH p.issues i WHERE p.user = :user");
+        query.setParameter("user", user);
+        return query.getResultList();
     }
 
     public Optional<Project> findByUserAndName(User user, String projectName) {
-        return repository.findByUserAndName(user, projectName);
+        TypedQuery<Project> query = entityManager.createQuery(
+                "SELECT DISTINCT p FROM Project p LEFT JOIN FETCH p.issues i " +
+                        "WHERE p.user = :user AND p.name = :name",
+                Project.class
+        );
+        query.setParameter("user", user);
+        query.setParameter("name", projectName);
+
+        try{
+            return Optional.of(query.getSingleResult());
+        } catch(NoResultException e){
+            return Optional.empty();
+        }
     }
 
     public void delete(Project project) {

@@ -7,8 +7,7 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import ProjectPage from "./Pages/ProjectPage";
-import HomePage from "./Pages/HomePage";
-
+import PrivateRoute from "./Route/PrivateRoute";
 
 
 export default class App extends Component {
@@ -21,15 +20,10 @@ export default class App extends Component {
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/register" component={RegisterPage}/>
 
-                        <Route path="/project" render={(props) =>
-                            <Layout {...props} content={<ProjectPage projectName={"Project #1"}/>}/>}
-                        />
+                        <PrivateRoute path="/project" component={ProjectPage}/>
+                        <PrivateRoute path="/projects" component={ProjectsPage}/>
 
-                        <Route path="/projects" render={(props) =>
-                            <Layout {...props} content={<ProjectsPage/>}/>}
-                        />
-
-                        <Route path="/" component={HomePage}/>
+                        <Route path="/" component={LoginPage}/>
                     </Switch>
                 </BrowserRouter>
 
