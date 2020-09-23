@@ -3,6 +3,7 @@ import IssueStatusColumn from "../Components/IssueStatusColumn";
 import Modal from "react-bootstrap/Modal";
 import {modelInstance} from "../Data/Model";
 import Form from "react-bootstrap/Form";
+import Layout from "../Layout/Layout";
 
 export default class ProjectPage extends Component {
 
@@ -125,46 +126,48 @@ export default class ProjectPage extends Component {
         );
 
         return (
-            <div className="container-fluid">
-                <Modal show={this.state.modalOpen}>
-                    <Modal.Header>
-                        <Modal.Title>
-                            Create an issue
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form noValidate>
-                            <Form.Row>
-                                <Form.Group md="4">
-                                    <Form.Label>Issue name</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        onChange={this.updateIssueName}
-                                    />
-                                    <Form.Control.Feedback type="invalid">Issue name cannot be empty</Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button className="btn btn-danger" onClick={this.hideModal}>Cancel</button>
-                        <button className="btn btn-primary" onClick={() => this.createIssue(this.state.project, this.state.issueName)}>Save</button>
-                    </Modal.Footer>
-                </Modal>
+            <Layout content={
+                <div className="container-fluid">
+                    <Modal show={this.state.modalOpen}>
+                        <Modal.Header>
+                            <Modal.Title>
+                                Create an issue
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form noValidate>
+                                <Form.Row>
+                                    <Form.Group md="4">
+                                        <Form.Label>Issue name</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={this.updateIssueName}
+                                        />
+                                        <Form.Control.Feedback type="invalid">Issue name cannot be empty</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button className="btn btn-danger" onClick={this.hideModal}>Cancel</button>
+                            <button className="btn btn-primary" onClick={() => this.createIssue(this.state.project, this.state.issueName)}>Save</button>
+                        </Modal.Footer>
+                    </Modal>
 
-                <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 className="h3 mb-0 text-gray-800">{this.getProjectName()}</h1>
+                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 className="h3 mb-0 text-gray-800">{this.getProjectName()}</h1>
 
-                    <button className="btn-primary btn-circle" onClick={this.showModal}>
-                        <i className="fab">+</i>
-                    </button>
+                        <button className="btn-primary btn-circle" onClick={this.showModal}>
+                            <i className="fab">+</i>
+                        </button>
+                    </div>
+
+                    <div className="row">
+                        {columns}
+                    </div>
                 </div>
-
-                <div className="row">
-                    {columns}
-                </div>
-            </div>
+            }/>
     );
     }
 }

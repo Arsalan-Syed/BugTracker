@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from 'react-bootstrap/Form'
 import {modelInstance} from "../Data/Model";
 import {Redirect} from "react-router-dom";
+import Layout from "../Layout/Layout";
 
 
 export default class ProjectsPage extends Component {
@@ -95,7 +96,8 @@ export default class ProjectsPage extends Component {
         let createProjectMessage = <div className="container"><h5>You have no projects, let's create one</h5></div>
 
         return (
-            <div className="container-fluid">
+            <Layout content={
+                <div className="container-fluid">
                 {this.state.redirect && <Redirect to="/project"/>}
                 <Modal show={this.state.modalOpen}>
                     <Modal.Header>
@@ -136,6 +138,7 @@ export default class ProjectsPage extends Component {
                     {visibleProjects.length === 0 && createProjectMessage}
                 </div>
             </div>
+            }/>
     );
     }
 }
