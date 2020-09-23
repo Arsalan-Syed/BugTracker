@@ -4,7 +4,9 @@ import com.github.syed.bugtracker.user.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,19 @@ public class ProjectDAO {
     }
 
     public Optional<Project> findByUserAndName(User user, String projectName) {
-        return repository.findByUserAndName(user, projectName);
+        TypedQuery<Project> query = entityManager.createQuery(
+                "SELECT DISTINCT p FROM Project p LEFT JOIN FETCH p.issues i " +
+                        "WHERE p.user = :user AND p.name = :name",
+                Project.class
+        );
+        query.setParameter("user", user);
+        query.setParameter("name", projectName);
+
+        try{
+            return Optional.of(query.getSingleResult());
+        } catch(NoResultException e){
+            return Optional.empty();
+        }
     }
 
     public void delete(Project project) {

@@ -74,29 +74,23 @@ export default class ProjectsPage extends Component {
         });
     }
 
-    selectProject = (project) => {
-        console.log(project);
-        modelInstance.setProject(project);
+    selectProject = (projectName) => {
+        console.log(projectName);
+        modelInstance.setProject(projectName);
         this.setState({"redirect":true});
-        console.log("DONE");
     }
 
     render(){
-        console.log(this.state);
-
-        let visibleProjects = null;
-        if(this.state.projects == null){
-            visibleProjects = [];
-        } else{
+        let visibleProjects = [];
+        if(this.state.projects != null){
             visibleProjects = this.state.projects
                 .filter(proj => this.filterProjectsByQueryText(proj.name, this.state.queryText))
                 .map(proj =>
-                    <div className="col-xl-3 col-md-6 mb-4" onClick={() => this.selectProject(proj)}>
+                    <div key={proj.name} className="col-xl-3 col-md-6 mb-4" onClick={() => this.selectProject(proj.name)}>
                         <ProjectCard project={proj}/>
                     </div>
                 );
         }
-
 
         let createProjectMessage = <div className="container"><h5>You have no projects, let's create one</h5></div>
 
@@ -110,7 +104,7 @@ export default class ProjectsPage extends Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form novalidate>
+                        <Form noValidate>
                             <Form.Row>
                                 <Form.Group md="4">
                                     <Form.Label>Project name</Form.Label>

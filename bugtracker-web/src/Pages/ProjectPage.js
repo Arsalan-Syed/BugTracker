@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import IssueStatusColumn from "../Components/IssueStatusColumn";
 import Modal from "react-bootstrap/Modal";
 import {modelInstance} from "../Data/Model";
+import Form from "react-bootstrap/Form";
 
 export default class ProjectPage extends Component {
 
@@ -9,21 +10,18 @@ export default class ProjectPage extends Component {
         super(props);
         this.state = {
             modalOpen: false,
-            issues: [
-                {"name": "Issue #1","status":"TODO", "description": "Set up a database"},
-                {"name": "Issue #2","status":"IN_PROGRESS", "description": "Refactor authentication code"},
-                {"name": "Issue #3","status":"TESTING", "description":  "Login to home page"},
-                {"name": "Issue #4","status":"DONE", "description": "Set up theme"}
-            ],
             queryText: null,
-            project: null
+            project: null,
+            issueName: null
         };
+
+        this.updateIssueName = this.updateIssueName.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         modelInstance.addObserver(this);
 
-        let project = modelInstance.getProject();
+        const project = await modelInstance.getProject();
         this.setState({
             "project": project
         })
@@ -47,6 +45,12 @@ export default class ProjectPage extends Component {
         this.setState({
             modalOpen: false
         })
+    }
+
+    updateIssueName = (event) => {
+        this.setState({
+            issueName: event.target.value
+        });
     }
 
     filterIssues = (issue, status) => {
@@ -87,12 +91,36 @@ export default class ProjectPage extends Component {
         return "";
     }
 
+    createIssue = (project, issueName) => {
+        let issue = {
+            "name":issueName,
+            "priority":"LOW" //TODO pass in param
+        }
+        console.log(issue);
+        modelInstance.createIssue(issue);
+        this.hideModal();
+    }
+
+    extractIssues = () => {
+        if(this.state.project == null){
+            return [];
+        }
+        if(this.state.project.issues == null){
+            return [];
+        }
+        return this.state.project.issues;
+    }
+
     render(){
         let statuses = ['TODO', 'IN_PROGRESS', 'TESTING', 'DONE'];
 
+        let issues = this.extractIssues();
+        console.log(issues);
+
         let columns = statuses.map(status =>
             <div className="col-xl-3 col-md-6 mb-4">
-                <IssueStatusColumn issueStatus={this.prettyName(status)} issues={this.state.issues.filter(issue => this.filterIssues(issue, status))}/>
+                <IssueStatusColumn key={this.prettyName(status)} issueStatus={this.prettyName(status)}
+                                   issues={issues.filter(issue => this.filterIssues(issue, status))}/>
             </div>
         );
 
@@ -104,10 +132,24 @@ export default class ProjectPage extends Component {
                             Create an issue
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Body</Modal.Body>
+                    <Modal.Body>
+                        <Form noValidate>
+                            <Form.Row>
+                                <Form.Group md="4">
+                                    <Form.Label>Issue name</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        onChange={this.updateIssueName}
+                                    />
+                                    <Form.Control.Feedback type="invalid">Issue name cannot be empty</Form.Control.Feedback>
+                                </Form.Group>
+                            </Form.Row>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer>
                         <button className="btn btn-danger" onClick={this.hideModal}>Cancel</button>
-                        <button className="btn btn-primary" onClick={this.hideModal}>Save</button>
+                        <button className="btn btn-primary" onClick={() => this.createIssue(this.state.project, this.state.issueName)}>Save</button>
                     </Modal.Footer>
                 </Modal>
 

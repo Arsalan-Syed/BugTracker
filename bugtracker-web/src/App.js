@@ -29,7 +29,7 @@ export default class App extends Component {
                             <Layout {...props} content={<ProjectsPage/>}/>}
                         />
 
-                        <Route path="/" component={HomePage}/>
+                        <Route path="/" component={LoginPage}/>
                     </Switch>
                 </BrowserRouter>
 

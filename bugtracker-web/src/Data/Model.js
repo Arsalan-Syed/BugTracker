@@ -5,7 +5,7 @@ const Model = function () {
     let queryText = null;
     let observers = [];
     let projects = [];
-    let project = null;
+    let projectName = null;
 
 
     this.setQueryText = function(text){
@@ -13,13 +13,17 @@ const Model = function () {
         this.notifyObservers({"queryText":text});
     }
 
-    this.setProject = function(proj){
-        project = proj
-        this.notifyObservers({"project":proj});
+    this.setProject = function(name){
+        projectName = name;
+        this.notifyObservers({"projectName":name});
     }
 
-    this.getProject = function(){
-        return project;
+    this.getProject = async function(){
+        let response = projectService.getProject(projectName);
+        if(response != null && response["message"] == null){
+            this.notifyObservers({"project":response});
+        }
+        return response;
     }
 
     this.addObserver = function (observer) {
@@ -33,8 +37,16 @@ const Model = function () {
     this.createProject = async function (projectName, projectColor) {
         let response = await projectService.createProject(projectName, projectColor);
         if(response["message"] == null){
-            projects.push({"name":projectName});
+            projects.push({"name":projectName, "issues":[]});
             this.notifyObservers({"projects":projects});
+        }
+    }
+
+    this.createIssue = async function (issue) {
+        let response = await projectService.createIssue(projectName, issue);
+
+        if(response["message"] == null){
+
         }
     }
 
